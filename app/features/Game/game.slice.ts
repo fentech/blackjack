@@ -51,11 +51,7 @@ const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (state, action) => 
   const newCard = state.deck.shift() as CardProps;
 
   state[action.payload].cards.push(newCard)
-  state[action.payload].score += getValue([newCard])
-
-  const aces = state[action.payload].cards.filter(card => card.rank === 'ace')
-
-  if (state[action.payload].score > 21 && aces.length > 0) aces.forEach(() => state[action.payload].score - 10)
+  state[action.payload].score = getValue(state[action.payload].cards)
 }
 const resetDeckCR: CaseReducer<GameState> = (state) => {newDeck(state)}
 const setTurnCR: CaseReducer<GameState, PayloadAction<Turn>> = (state, action) => {state.turn = action.payload}

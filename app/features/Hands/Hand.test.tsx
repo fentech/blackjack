@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "test-utils";
 import Hand from "./Hand";
-import { PersonState } from "../Game/game.slice";
+import { PersonState } from "../Game/gameSlice";
 import { getValue } from "./utils";
 
 const defaultPersonState: PersonState = {

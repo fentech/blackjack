@@ -1,5 +1,5 @@
 import { CardProps } from "../Card/Card";
-import { PersonState } from "../Game/game.slice";
+import { PersonState } from "../Game/gameSlice";
 import {
   createDeck,
   getEndGameStatus,

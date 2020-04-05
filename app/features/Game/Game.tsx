@@ -1,7 +1,7 @@
 import React from "react";
 // redux
 import { useDispatch } from "react-redux";
-import { hit, setTurn, newRound, GameState } from "./game.slice";
+import { hit, setTurn, newRound, GameState } from "./gameSlice";
 // components
 import GameControls from "../GameControls/GameControls";
 import Hand from "../Hands/Hand";
@@ -14,7 +14,7 @@ export default function Game() {
   const [gameOver, setGameOver] = React.useState(false);
 
   const dispatch = useDispatch();
-  const { player, dealer, turn } = useSelector(state => state.game);
+  const { player, dealer, turn } = useSelector((state) => state.game);
 
   React.useEffect(() => {
     dispatch(newRound());

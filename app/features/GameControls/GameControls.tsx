@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, ButtonText } from "./GameControls.styles";
 import { useDispatch } from "react-redux";
-import { hit, newRound, setTurn } from "../Game/game.slice";
+import { hit, newRound, setTurn } from "../Game/gameSlice";
 
 interface Props {
   gameOver: boolean;

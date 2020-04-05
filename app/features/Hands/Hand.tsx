@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Card from "../Card/Card";
-import { PersonState } from "../Game/game.slice";
+import { PersonState } from "../Game/gameSlice";
 import { getHiddenCardValue } from "../GameControls/utils";
 import { Container, Name } from "./Hand.styles";
 import { Person } from "../GameControls/types";

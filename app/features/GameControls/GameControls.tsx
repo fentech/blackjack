@@ -13,6 +13,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
   if (gameOver)
     return (
       <Button
+        testID="PlayAgainButton"
         onPress={() => {
           dispatch(newRound());
         }}
@@ -24,6 +25,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
   return (
     <>
       <Button
+        testID="HitButton"
         onPress={() => {
           dispatch(hit("player"));
         }}
@@ -31,6 +33,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
         <ButtonText>Hit</ButtonText>
       </Button>
       <Button
+        testID="StandButton"
         onPress={() => {
           dispatch(setTurn("dealer"));
         }}

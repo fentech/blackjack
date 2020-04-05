@@ -1,36 +1,57 @@
-import { Turn } from './types';
-import { CardProps } from '../Card/Card';
-import { Ranks } from '../Card/types';
-import { PersonState } from '../Game/game.slice';
-import { RANKS, SUITS } from '../Game/constants';
+import { Turn } from "./types";
+import { CardProps } from "../Card/Card";
+import { Ranks } from "../Card/types";
+import { PersonState } from "../Game/game.slice";
+import { RANKS, SUITS } from "../Game/constants";
 
 export const createDeck = () => {
-  return (Object.keys(RANKS) as Ranks[]).map(rank => SUITS.map(suit => ({suit, rank}))).flat()
-}
+  return (Object.keys(RANKS) as Ranks[])
+    .map((rank) => SUITS.map((suit) => ({ suit, rank })))
+    .flat();
+};
 
 export const getHiddenCardValue = ({ score, cards }: PersonState) => {
   let hiddenScore = score;
 
-  cards.slice(1).map(card => {
-    hiddenScore -= RANKS[card.rank]
-  })
+  cards.slice(1).map((card) => {
+    hiddenScore -= RANKS[card.rank];
+  });
 
   return hiddenScore;
-}
+};
 
-export const playerWins = (playerScore: number, dealerScore: number, turn: Turn) =>
-  !turn &&
-  playerScore <= 21 &&
-  (dealerScore > 21 || (dealerScore <= 21 && playerScore > dealerScore));
+export const personBusts = (personScore: number) => personScore > 21;
 
-export const playerLoses = (playerScore: number, dealerScore: number, turn: Turn) =>
-  (turn === "player" && playerScore > 21) ||
+export const playerLoses = (
+  playerScore: number,
+  dealerScore: number,
+  turn: Turn
+) =>
+  personBusts(playerScore) ||
   (!turn &&
+    !personBusts(dealerScore) &&
     playerScore <= 21 &&
     dealerScore <= 21 &&
     playerScore < dealerScore);
 
-export const getEndGameStatus = (playerScore: number, dealerScore: number, turn: Turn) => {
+export const playerWins = (
+  playerScore: number,
+  dealerScore: number,
+  turn: Turn
+) =>
+  !personBusts(playerScore) &&
+  turn !== "player" &&
+  (personBusts(dealerScore) ||
+    (!turn &&
+      playerScore <= 21 &&
+      dealerScore <= 21 &&
+      playerScore > dealerScore));
+
+export const getEndGameStatus = (
+  playerScore: number,
+  dealerScore: number,
+  turn: Turn
+) => {
   if (playerWins(playerScore, dealerScore, turn)) return "YOU WIN!!";
 
   if (playerLoses(playerScore, dealerScore, turn)) return "You lost...";
@@ -38,7 +59,11 @@ export const getEndGameStatus = (playerScore: number, dealerScore: number, turn:
   return "Pushed";
 };
 
-export const isGameOver = (playerScore: number, dealerScore: number, turn: Turn) => {
+export const isGameOver = (
+  playerScore: number,
+  dealerScore: number,
+  turn: Turn
+) => {
   return (
     !turn ||
     playerLoses(playerScore, dealerScore, turn) ||
@@ -47,7 +72,7 @@ export const isGameOver = (playerScore: number, dealerScore: number, turn: Turn)
 };
 
 export const shuffleDeck = (deck: CardProps[]) => {
-  for (let i = 0;i < deck.length;i++) {
+  for (let i = 0; i < deck.length; i++) {
     let newIndex = Math.floor(Math.random() * (i + 1));
     let currentValue = deck[i];
     deck[i] = deck[newIndex];
@@ -55,4 +80,4 @@ export const shuffleDeck = (deck: CardProps[]) => {
   }
 
   return deck;
-}
+};

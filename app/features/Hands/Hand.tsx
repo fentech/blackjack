@@ -12,10 +12,14 @@ interface Props {
   personState: PersonState;
 }
 
-const Hand: React.FC<Props> = ({ hideCard, person, personState }) => {
+const Hand: React.FC<Props & Testable> = ({
+  hideCard,
+  person,
+  personState,
+}) => {
   return (
     <Container>
-      <Name>
+      <Name testID="HandName">
         {person[0].toUpperCase() + person.slice(1)} -{" "}
         {personState.cards.length &&
           (person == "dealer" && hideCard

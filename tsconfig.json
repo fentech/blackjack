@@ -3,10 +3,13 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
+    "esModuleInterop": true,
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": true
+    "strict": true,
+    "rootDirs": [".", "./test-utils"],
+    "baseUrl": "."
   }
 }

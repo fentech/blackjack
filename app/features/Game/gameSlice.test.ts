@@ -2,12 +2,13 @@ import { getValue } from "../Hands/utils";
 import reducer, {
   GameState,
   hit,
-  newGame,
-  newRound,
+  initNewRound,
   resetDeck,
+  resetGame,
   setTurn,
   stand,
-  takeBet,
+  startNewRound,
+  toggleBetting,
   name,
   initialState,
 } from "./gameSlice";
@@ -25,20 +26,11 @@ describe("hit() action creator", (): void => {
   });
 });
 
-describe("newGame() action creator", (): void => {
-  it("should setup a 'newGame' action", (): void => {
-    expect(newGame()).toEqual({
+describe("initNewRound() action creator", (): void => {
+  it("should setup a 'initNewRound' action", (): void => {
+    expect(initNewRound()).toEqual({
       payload: undefined,
-      type: getType("newGame"),
-    });
-  });
-});
-
-describe("newRound() action creator", (): void => {
-  it("should setup a 'newRound' action", (): void => {
-    expect(newRound()).toEqual({
-      payload: undefined,
-      type: getType("newRound"),
+      type: getType("initNewRound"),
     });
   });
 });
@@ -48,6 +40,15 @@ describe("resetDeck() action creator", (): void => {
     expect(resetDeck()).toEqual({
       payload: undefined,
       type: getType("resetDeck"),
+    });
+  });
+});
+
+describe("resetGame() action creator", (): void => {
+  it("should setup a 'resetGame' action", (): void => {
+    expect(resetGame()).toEqual({
+      payload: undefined,
+      type: getType("resetGame"),
     });
   });
 });
@@ -72,13 +73,22 @@ describe("stand() action creator", (): void => {
   });
 });
 
-describe("takeBet() action creator", (): void => {
-  it("should setup a 'takeBet' action", (): void => {
+describe("startNewRound() action creator", (): void => {
+  it("should setup a 'startNewRound' action", (): void => {
     const payload = 10;
 
-    expect(takeBet(payload)).toEqual({
+    expect(startNewRound(payload)).toEqual({
       payload,
-      type: getType("takeBet"),
+      type: getType("startNewRound"),
+    });
+  });
+});
+
+describe("toggleBetting() action creator", (): void => {
+  it("should setup a 'toggleBetting' action", (): void => {
+    expect(toggleBetting()).toEqual({
+      payload: undefined,
+      type: getType("toggleBetting"),
     });
   });
 });
@@ -115,6 +125,8 @@ describe("game reducer", (): void => {
     chips: 100,
     bet: 10,
     turn: null,
+    isBetting: false,
+    isNewGame: false,
   };
 
   it("should return initial state", (): void => {
@@ -127,11 +139,41 @@ describe("game reducer", (): void => {
     });
   });
 
-  describe("'newGame' action", (): void => {
-    const { deck, player, dealer, turn, chips, bet } = reducer(
-      defaultState,
-      newGame()
-    );
+  describe("'initNewRound' action", (): void => {
+    const { bet, chips, isBetting } = reducer(defaultState, initNewRound());
+
+    it("should adjust the player's chips", (): void => {
+      expect(chips).toBe(110);
+    });
+
+    it("should adjust the player's bet", (): void => {
+      expect(bet).toBe(0);
+    });
+
+    it("should set isBetting to false", (): void => {
+      expect(isBetting).toBe(true);
+    });
+  });
+
+  describe("'resetDeck' action", (): void => {
+    it("should assign a new shuffled deck in state", (): void => {
+      const { deck } = reducer(defaultState, resetDeck());
+
+      expect(deck.length).toBe(52);
+    });
+  });
+
+  describe("'resetGame' action", (): void => {
+    const {
+      bet,
+      chips,
+      deck,
+      dealer,
+      isBetting,
+      isNewGame,
+      player,
+      turn,
+    } = reducer(defaultState, resetGame());
 
     it("should reset deck", (): void => {
       expect(deck.length).toBe(52);
@@ -153,43 +195,13 @@ describe("game reducer", (): void => {
     it("should reset the player's chips", (): void => {
       expect(chips).toBe(100);
     });
-  });
 
-  describe("'newRound' action", (): void => {
-    const { deck, player, dealer, turn, chips, bet } = reducer(
-      defaultState,
-      newRound()
-    );
-
-    it("should reset deck and deal starting cards", (): void => {
-      expect(deck.length).toBe(48);
-      expect(player.cards.length).toBe(2);
-      expect(dealer.cards.length).toBe(2);
+    it("should set isBetting to true", (): void => {
+      expect(isBetting).toBe(true);
     });
 
-    it("should set dealer and player scores", (): void => {
-      expect(player.score).toBe(getValue(player.cards));
-      expect(dealer.score).toBe(getValue(dealer.cards));
-    });
-
-    it("should set the player's turn", (): void => {
-      expect(turn).toBe("player");
-    });
-
-    it("should adjust the player's chips", (): void => {
-      expect(chips).toBe(110);
-    });
-
-    it("should adjust the player's bet", (): void => {
-      expect(bet).toBe(0);
-    });
-  });
-
-  describe("'resetDeck' action", (): void => {
-    it("should assign a new shuffled deck in state", (): void => {
-      const { deck } = reducer(defaultState, resetDeck());
-
-      expect(deck.length).toBe(52);
+    it("should set isNewGame to true", (): void => {
+      expect(isNewGame).toBe(true);
     });
   });
 
@@ -209,12 +221,57 @@ describe("game reducer", (): void => {
     });
   });
 
-  describe("'takeBet' action", (): void => {
-    it("should assign the 'bet' property in state", (): void => {
-      const newBet = 12;
-      const { bet } = reducer(defaultState, takeBet(newBet));
+  describe("'startNewRound' action", (): void => {
+    const { bet, deck, dealer, isBetting, isNewGame, player, turn } = reducer(
+      defaultState,
+      startNewRound(11)
+    );
 
-      expect(bet).toBe(newBet);
+    it("should reset deck and deal starting cards", (): void => {
+      expect(deck.length).toBe(48);
+      expect(player.cards.length).toBe(2);
+      expect(dealer.cards.length).toBe(2);
+    });
+
+    it("should set dealer and player scores", (): void => {
+      expect(player.score).toBe(getValue(player.cards));
+      expect(dealer.score).toBe(getValue(dealer.cards));
+    });
+
+    it("should set the player's turn", (): void => {
+      expect(turn).toBe("player");
+    });
+
+    it("should adjust the player's bet", (): void => {
+      expect(bet).toBe(11);
+    });
+
+    it("should set isBetting to false", (): void => {
+      expect(isBetting).toBe(false);
+    });
+
+    describe("'isNewGame' is true", (): void => {
+      it("should set isNewGame to true", (): void => {
+        expect(initialState.isNewGame).toBeTruthy();
+
+        const { isNewGame } = reducer(initialState, startNewRound(11));
+
+        expect(isNewGame).toBeFalsy();
+      });
+    });
+
+    describe("'isNewGame' is false", (): void => {
+      it("'isNewGame' should still be false", (): void => {
+        expect(isNewGame).toBe(false);
+      });
+    });
+  });
+
+  describe("'toggleBetting' action", (): void => {
+    it("should toggle the 'isBetting' property in state", (): void => {
+      const { isBetting } = reducer(defaultState, toggleBetting());
+
+      expect(isBetting).toBe(!defaultState.isBetting);
     });
   });
 });

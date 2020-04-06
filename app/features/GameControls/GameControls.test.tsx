@@ -1,49 +1,105 @@
 import React from "react";
-import { render } from "test-utils";
+import { render, Matcher, MatcherOptions, fireEvent, act } from "test-utils";
 import GameControls from "./GameControls";
+import store from "../../store";
+import { resetGame, toggleBetting } from "../Game/gameSlice";
+
+type MemoCB = (getters: {
+  getByTestId: (
+    text: Matcher,
+    options?: MatcherOptions | undefined
+  ) => Pick<any, string | number | symbol>;
+  queryByTestId: (
+    text: Matcher,
+    options?: MatcherOptions | undefined
+  ) => Pick<any, string | number | symbol> | null;
+}) => void;
+const memoTest = (
+  cb: MemoCB,
+  options: { gameOver?: boolean; isBetting?: boolean } = {}
+) => {
+  const { gameOver = false, isBetting = false } = options;
+
+  const { getByTestId, queryByTestId } = render(
+    <GameControls gameOver={gameOver} />
+  );
+
+  if (!isBetting) {
+    act((): void => {
+      store.dispatch(toggleBetting());
+    });
+  }
+
+  cb({ getByTestId, queryByTestId });
+};
 
 describe("GameControls", (): void => {
-  describe("gameOver = false", (): void => {
-    const ui = <GameControls gameOver={false} />;
-
-    it("should render the 'Hit' button", (): void => {
-      const { getByTestId } = render(ui);
-
-      expect(getByTestId("HitButton")).toBeTruthy();
-    });
-
-    it("should render the 'Stand' button", (): void => {
-      const { getByTestId } = render(ui);
-
-      expect(getByTestId("StandButton")).toBeTruthy();
-    });
-
-    it("should not render a 'Play Again' button", (): void => {
-      const { queryByTestId } = render(ui);
-
-      expect(queryByTestId("PlayAgainButton")).toBeFalsy();
+  afterEach((): void => {
+    act((): void => {
+      store.dispatch(resetGame());
     });
   });
 
-  describe("gameOver = true", (): void => {
-    const ui = <GameControls gameOver={true} />;
+  describe("redux state.isBetting = true", (): void => {
+    it("should display BetForm", (): void => {
+      memoTest(
+        ({ getByTestId }) => {
+          expect(getByTestId("BetForm")).toBeTruthy();
+        },
+        { isBetting: true }
+      );
+    });
+  });
 
-    it("should render the 'Play Again' button", (): void => {
-      const { getByTestId } = render(ui);
-
-      expect(getByTestId("PlayAgainButton")).toBeTruthy();
+  describe("redux state.isBetting = false", (): void => {
+    it("should not render a BetForm", (): void => {
+      memoTest(({ queryByTestId }) => {
+        expect(queryByTestId("BetForm")).toBeFalsy();
+      });
     });
 
-    it("should not render a 'Hit' button", (): void => {
-      const { queryByTestId } = render(ui);
+    describe("gameOver = false", (): void => {
+      const assert = (cb: MemoCB) => memoTest(cb, { gameOver: false });
 
-      expect(queryByTestId("HitButton")).toBeFalsy();
+      it("should render the 'Hit' button", (): void => {
+        assert(({ getByTestId }) => {
+          expect(getByTestId("HitButton")).toBeTruthy();
+        });
+      });
+
+      it("should render the 'Stand' button", (): void => {
+        assert(({ getByTestId }) => {
+          expect(getByTestId("StandButton")).toBeTruthy();
+        });
+      });
+
+      it("should not render a 'Play Again' button", (): void => {
+        assert(({ queryByTestId }) => {
+          expect(queryByTestId("PlayAgainButton")).toBeFalsy();
+        });
+      });
     });
 
-    it("should not render a 'Stand' button", (): void => {
-      const { queryByTestId } = render(ui);
+    describe("gameOver = true", (): void => {
+      const assert = (cb: MemoCB) => memoTest(cb, { gameOver: true });
 
-      expect(queryByTestId("StandButton")).toBeFalsy();
+      it("should render the 'Play Again' button", (): void => {
+        assert(({ getByTestId }) => {
+          expect(getByTestId("PlayAgainButton")).toBeTruthy();
+        });
+      });
+
+      it("should not render a 'Hit' button", (): void => {
+        assert(({ queryByTestId }) => {
+          expect(queryByTestId("HitButton")).toBeFalsy();
+        });
+      });
+
+      it("should not render a 'Stand' button", (): void => {
+        assert(({ queryByTestId }) => {
+          expect(queryByTestId("StandButton")).toBeFalsy();
+        });
+      });
     });
   });
 });

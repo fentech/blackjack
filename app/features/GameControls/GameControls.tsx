@@ -1,21 +1,33 @@
 import React from "react";
 import { Button, ButtonText } from "./GameControls.styles";
 import { useDispatch } from "react-redux";
-import { hit, newRound, setTurn } from "../Game/gameSlice";
+import { hit, initNewRound, setTurn, startNewRound } from "../Game/gameSlice";
+import BetForm from "../BetForm/BetForm";
+import useSelector from "../../functions/useSelector";
 
 interface Props {
   gameOver: boolean;
 }
 
 const GameControls: React.FC<Props> = ({ gameOver }) => {
+  const { isBetting } = useSelector((state) => state.game);
   const dispatch = useDispatch();
+
+  if (isBetting)
+    return (
+      <BetForm
+        onSubmit={(bet) => {
+          dispatch(startNewRound(bet));
+        }}
+      />
+    );
 
   if (gameOver)
     return (
       <Button
         testID="PlayAgainButton"
         onPress={() => {
-          dispatch(newRound());
+          dispatch(initNewRound());
         }}
       >
         <ButtonText>Play Again</ButtonText>

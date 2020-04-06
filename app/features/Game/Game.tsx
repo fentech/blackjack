@@ -46,18 +46,25 @@ export default function Game() {
     <Wrapper>
       <Title>Blackjack</Title>
       {gameOver ? (
-        <Status>{getEndGameStatus(player.score, dealer.score, turn)}</Status>
+        <Status testID="Status">
+          {getEndGameStatus(player.score, dealer.score, turn)}
+        </Status>
       ) : null}
-      {!isBetting && <Text category="h4">Current Bet: {bet.toString()}</Text>}
+      {!isBetting && (
+        <Text testID="CurrentBet" category="h4">
+          Current bet: {bet.toString()}
+        </Text>
+      )}
       <Text category="h5">Total chips: {chips.toString()}</Text>
       {!isBetting && (
-        <HandContainer>
+        <HandContainer testID="Cards">
           <Hand
             hideCard={turn === "player"}
             person="dealer"
             personState={dealer}
+            testID="DealerHand"
           />
-          <Hand person="player" personState={player} />
+          <Hand person="player" personState={player} testID="PlayerHand" />
         </HandContainer>
       )}
       <GameControls gameOver={gameOver} />

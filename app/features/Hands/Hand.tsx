@@ -16,9 +16,10 @@ const Hand: React.FC<Props & Testable> = ({
   hideCard,
   person,
   personState,
+  testID = "Hand",
 }) => {
   return (
-    <Container>
+    <Container testID={testID}>
       <Name testID="HandName">
         {person[0].toUpperCase() + person.slice(1)} -{" "}
         {personState.cards.length &&

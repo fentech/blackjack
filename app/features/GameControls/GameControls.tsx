@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { hit, initNewRound, setTurn, startNewRound } from "../Game/gameSlice";
 import BetForm from "../BetForm/BetForm";
 import useSelector from "../../functions/useSelector";
+import { View } from "react-native";
 
 interface Props {
   gameOver: boolean;
@@ -15,27 +16,31 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
 
   if (isBetting)
     return (
-      <BetForm
-        onSubmit={(bet) => {
-          dispatch(startNewRound(bet));
-        }}
-      />
+      <View testID="GameControls">
+        <BetForm
+          onSubmit={(bet) => {
+            dispatch(startNewRound(bet));
+          }}
+        />
+      </View>
     );
 
   if (gameOver)
     return (
-      <Button
-        testID="PlayAgainButton"
-        onPress={() => {
-          dispatch(initNewRound());
-        }}
-      >
-        <ButtonText>Play Again</ButtonText>
-      </Button>
+      <View testID="GameControls">
+        <Button
+          testID="PlayAgainButton"
+          onPress={() => {
+            dispatch(initNewRound());
+          }}
+        >
+          <ButtonText>Play Again</ButtonText>
+        </Button>
+      </View>
     );
 
   return (
-    <>
+    <View testID="GameControls">
       <Button
         testID="HitButton"
         onPress={() => {
@@ -52,7 +57,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
       >
         <ButtonText>Stand</ButtonText>
       </Button>
-    </>
+    </View>
   );
 };
 

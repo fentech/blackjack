@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { CardProps } from "../Card/Card";
 import { Person, Turn } from "../GameControls/types";
-import { createDeck, shuffleDeck } from "../GameControls/utils";
+import { createDeck, shuffleDeck, playerWins } from "../GameControls/utils";
 import { getValue } from "../Hands/utils";
 
 const resetPerson = () => ({ cards: [], score: 0 });
@@ -15,21 +15,36 @@ export interface PersonState {
   score: number;
 }
 export interface GameState {
+  bet: number;
+  chips: number;
   deck: CardProps[];
   dealer: PersonState;
   player: PersonState;
   turn: Turn;
 }
 
-const initialState: GameState = {
+export const initialState: GameState = {
+  bet: 0,
+  chips: 100,
   deck: shuffleDeck(createDeck()),
   dealer: resetPerson(),
   player: resetPerson(),
   turn: "player",
 };
 
+const newGameCR: CaseReducer<GameState> = () => initialState;
+
 const newRoundCR: CaseReducer<GameState> = (state) => {
   newDeck(state);
+
+  if (playerWins(state.player.score, state.dealer.score, state.turn)) {
+    state.chips += state.bet;
+  } else {
+    state.chips -= state.bet;
+  }
+
+  state.bet = 0;
+
   state.turn = "player";
   state.dealer = resetPerson();
   state.player = resetPerson();
@@ -71,20 +86,36 @@ const setTurnCR: CaseReducer<GameState, PayloadAction<Turn>> = (
 const standCR: CaseReducer<GameState> = (state) => {
   state.turn = "dealer";
 };
+const takeBetCR: CaseReducer<GameState, PayloadAction<number>> = (
+  state,
+  action
+) => {
+  state.bet = action.payload;
+};
 
 const gameSlice = createSlice({
   name: "gameControls",
   initialState,
   reducers: {
     hit: hitCR,
+    newGame: newGameCR,
     newRound: newRoundCR,
     resetDeck: resetDeckCR,
     setTurn: setTurnCR,
     stand: standCR,
+    takeBet: takeBetCR,
   },
 });
 
-export const { hit, newRound, resetDeck, setTurn, stand } = gameSlice.actions;
+export const {
+  hit,
+  newGame,
+  newRound,
+  resetDeck,
+  setTurn,
+  stand,
+  takeBet,
+} = gameSlice.actions;
 export const { name } = gameSlice;
 
 export default gameSlice.reducer;

@@ -1,12 +1,15 @@
-import { GameState } from "./gameSlice";
 import { getValue } from "../Hands/utils";
 import reducer, {
+  GameState,
   hit,
+  newGame,
   newRound,
   resetDeck,
   setTurn,
   stand,
+  takeBet,
   name,
+  initialState,
 } from "./gameSlice";
 
 const getType = (action: string) => `${name}/${action}`;
@@ -18,6 +21,15 @@ describe("hit() action creator", (): void => {
     expect(hit(payload)).toEqual({
       payload,
       type: getType("hit"),
+    });
+  });
+});
+
+describe("newGame() action creator", (): void => {
+  it("should setup a 'newGame' action", (): void => {
+    expect(newGame()).toEqual({
+      payload: undefined,
+      type: getType("newGame"),
     });
   });
 });
@@ -60,30 +72,53 @@ describe("stand() action creator", (): void => {
   });
 });
 
+describe("takeBet() action creator", (): void => {
+  it("should setup a 'takeBet' action", (): void => {
+    const payload = 10;
+
+    expect(takeBet(payload)).toEqual({
+      payload,
+      type: getType("takeBet"),
+    });
+  });
+});
+
 describe("game reducer", (): void => {
-  const initialState: GameState = {
-    deck: [
-      {
-        rank: 2,
-        suit: "diamonds",
-      },
-    ],
+  const defaultState: GameState = {
+    deck: [],
     dealer: {
-      cards: [],
-      score: 0,
+      cards: [
+        {
+          rank: 2,
+          suit: "diamonds",
+        },
+        {
+          rank: 5,
+          suit: "clubs",
+        },
+      ],
+      score: 7,
     },
     player: {
-      cards: [],
-      score: 0,
+      cards: [
+        {
+          rank: 10,
+          suit: "diamonds",
+        },
+        {
+          rank: "queen",
+          suit: "clubs",
+        },
+      ],
+      score: 20,
     },
-    turn: "player",
+    chips: 100,
+    bet: 10,
+    turn: null,
   };
 
   it("should return initial state", (): void => {
-    expect(reducer(undefined, { type: undefined })).toEqual({
-      ...initialState,
-      deck: expect.any(Array),
-    });
+    expect(reducer(undefined, { type: undefined })).toEqual(initialState);
   });
 
   describe("'hit' action", (): void => {
@@ -92,8 +127,39 @@ describe("game reducer", (): void => {
     });
   });
 
+  describe("'newGame' action", (): void => {
+    const { deck, player, dealer, turn, chips, bet } = reducer(
+      defaultState,
+      newGame()
+    );
+
+    it("should reset deck", (): void => {
+      expect(deck.length).toBe(52);
+    });
+
+    it("should reset dealer and player scores", (): void => {
+      expect(player.score).toBe(0);
+      expect(dealer.score).toBe(0);
+    });
+
+    it("should set the player's turn", (): void => {
+      expect(turn).toBe("player");
+    });
+
+    it("should reset the player's bet", (): void => {
+      expect(bet).toBe(0);
+    });
+
+    it("should reset the player's chips", (): void => {
+      expect(chips).toBe(100);
+    });
+  });
+
   describe("'newRound' action", (): void => {
-    const { deck, player, dealer, turn } = reducer(initialState, newRound());
+    const { deck, player, dealer, turn, chips, bet } = reducer(
+      defaultState,
+      newRound()
+    );
 
     it("should reset deck and deal starting cards", (): void => {
       expect(deck.length).toBe(48);
@@ -106,14 +172,22 @@ describe("game reducer", (): void => {
       expect(dealer.score).toBe(getValue(dealer.cards));
     });
 
-    it("set the player's turn", (): void => {
+    it("should set the player's turn", (): void => {
       expect(turn).toBe("player");
+    });
+
+    it("should adjust the player's chips", (): void => {
+      expect(chips).toBe(110);
+    });
+
+    it("should adjust the player's bet", (): void => {
+      expect(bet).toBe(0);
     });
   });
 
   describe("'resetDeck' action", (): void => {
     it("should assign a new shuffled deck in state", (): void => {
-      const { deck } = reducer(initialState, resetDeck());
+      const { deck } = reducer(defaultState, resetDeck());
 
       expect(deck.length).toBe(52);
     });
@@ -121,7 +195,7 @@ describe("game reducer", (): void => {
 
   describe("'setTurn' action", (): void => {
     it("should assign the 'turn' property in state to the specified person", (): void => {
-      const { turn } = reducer(initialState, setTurn("dealer"));
+      const { turn } = reducer(defaultState, setTurn("dealer"));
 
       expect(turn).toBe("dealer");
     });
@@ -129,9 +203,18 @@ describe("game reducer", (): void => {
 
   describe("'stand' action", (): void => {
     it("should assign the 'turn' property in state to 'dealer'", (): void => {
-      const { turn } = reducer(initialState, stand());
+      const { turn } = reducer(defaultState, stand());
 
       expect(turn).toBe("dealer");
+    });
+  });
+
+  describe("'takeBet' action", (): void => {
+    it("should assign the 'bet' property in state", (): void => {
+      const newBet = 12;
+      const { bet } = reducer(defaultState, takeBet(newBet));
+
+      expect(bet).toBe(newBet);
     });
   });
 });

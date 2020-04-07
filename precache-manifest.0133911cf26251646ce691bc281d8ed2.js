@@ -4,16 +4,16 @@ self.__precacheManifest = [
     "url": "/blackjack/favicon-16.png"
   },
   {
-    "revision": "afb9c358e9323376d90e",
-    "url": "/blackjack/static/js/app.72d42f1f.chunk.js"
+    "revision": "37d1b134cc0bcab8c254",
+    "url": "/blackjack/static/js/app.727c1b46.chunk.js"
   },
   {
     "revision": "02b41a81376aeaf19dc7",
     "url": "/blackjack/static/js/runtime~app.3373d06e.js"
   },
   {
-    "revision": "1558248e19cbab7e5736",
-    "url": "/blackjack/static/js/2.124d7618.chunk.js"
+    "revision": "08b403973b49fd05a9e5",
+    "url": "/blackjack/static/js/2.5be522b2.chunk.js"
   },
   {
     "revision": "d0c694b562b2208635f250762cd7fc79",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/blackjack/manifest.json"
   },
   {
-    "revision": "5a5441ba277e586543b781065624fa21",
+    "revision": "18914fb78bb3654921e31bec94c72e95",
     "url": "/blackjack/index.html"
   },
   {

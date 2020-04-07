@@ -12,4 +12,4 @@ A straight-forward, cross-platform (Expo) Blackjack game, written in TypeScript.
 
 ### [Web](fentech.github.io/blackjack)
 
-## [Expo (Android & iOS)](https://expo.io/@fentech/blackjack)
+### [Expo (Android & iOS)](https://expo.io/@fentech/blackjack)

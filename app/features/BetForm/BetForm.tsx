@@ -8,7 +8,7 @@ interface Props {
 }
 
 const BetForm: React.FC<Props> = ({ onSubmit }) => {
-  const [bet, setBet] = React.useState<number | string | undefined | null>();
+  const [bet, setBet] = React.useState<number | string | null>(10);
   const [error, setError] = React.useState<string | null>(null);
   const { chips } = useSelector((state) => state.game);
 

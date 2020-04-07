@@ -16,6 +16,9 @@ const BetForm: React.FC<Props> = ({ onSubmit }) => {
     <Container testID="BetForm">
       <Title category="h3">Place your bet</Title>
       <Input
+        autoFocus
+        enablesReturnKeyAutomatically
+        keyboardType="number-pad"
         value={bet || bet === 0 ? bet.toString() : ""}
         onChangeText={(text) => {
           const number = parseInt(text);

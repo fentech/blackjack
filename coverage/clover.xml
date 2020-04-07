@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1586209283139" clover="3.2.0">
+  <project timestamp="1586209283140" name="All files">
+    <metrics statements="156" coveredstatements="147" conditionals="97" coveredconditionals="86" methods="47" coveredmethods="42" elements="300" coveredelements="275" complexity="0" loc="156" ncloc="156" packages="8" files="16" classes="16"/>
+    <package name="app">
+      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="store.ts" path="/Users/joef/Projects/blackjack/app/store.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="5" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.features.BetForm">
+      <metrics statements="19" coveredstatements="19" conditionals="20" coveredconditionals="19" methods="4" coveredmethods="4"/>
+      <file name="BetForm.styles.ts" path="/Users/joef/Projects/blackjack/app/features/BetForm/BetForm.styles.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="4" count="3" type="stmt"/>
+        <line num="8" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+      </file>
+      <file name="BetForm.tsx" path="/Users/joef/Projects/blackjack/app/features/BetForm/BetForm.tsx">
+        <metrics statements="16" coveredstatements="16" conditionals="20" coveredconditionals="19" methods="4" coveredmethods="4"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="11" count="165" type="stmt"/>
+        <line num="12" count="165" type="stmt"/>
+        <line num="13" count="389" type="stmt"/>
+        <line num="15" count="165" type="stmt"/>
+        <line num="21" count="13" type="stmt"/>
+        <line num="23" count="13" type="cond" truecount="4" falsecount="0"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="27" count="11" type="stmt"/>
+        <line num="29" count="11" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="46" count="1" type="cond" truecount="1" falsecount="1"/>
+      </file>
+    </package>
+    <package name="app.features.Card">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Card.tsx" path="/Users/joef/Projects/blackjack/app/features/Card/Card.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="9" count="3" type="stmt"/>
+        <line num="13" count="3" type="stmt"/>
+        <line num="14" count="39" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.features.Game">
+      <metrics statements="69" coveredstatements="64" conditionals="31" coveredconditionals="24" methods="18" coveredmethods="17"/>
+      <file name="Game.styles.ts" path="/Users/joef/Projects/blackjack/app/features/Game/Game.styles.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="2" methods="0" coveredmethods="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+      </file>
+      <file name="Game.tsx" path="/Users/joef/Projects/blackjack/app/features/Game/Game.tsx">
+        <metrics statements="18" coveredstatements="14" conditionals="20" coveredconditionals="16" methods="6" coveredmethods="5"/>
+        <line num="15" count="93" type="stmt"/>
+        <line num="17" count="93" type="stmt"/>
+        <line num="18" count="93" type="stmt"/>
+        <line num="19" count="193" type="stmt"/>
+        <line num="22" count="93" type="stmt"/>
+        <line num="23" count="56" type="cond" truecount="4" falsecount="0"/>
+        <line num="24" count="14" type="stmt"/>
+        <line num="25" count="42" type="cond" truecount="4" falsecount="0"/>
+        <line num="26" count="14" type="stmt"/>
+        <line num="30" count="93" type="stmt"/>
+        <line num="31" count="49" type="cond" truecount="1" falsecount="1"/>
+        <line num="32" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="36" count="0" type="stmt"/>
+        <line num="41" count="93" type="stmt"/>
+        <line num="42" count="7" type="cond" truecount="1" falsecount="1"/>
+        <line num="45" count="93" type="stmt"/>
+      </file>
+      <file name="constants.ts" path="/Users/joef/Projects/blackjack/app/features/Game/constants.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="8" type="stmt"/>
+        <line num="4" count="8" type="stmt"/>
+      </file>
+      <file name="gameSlice.ts" path="/Users/joef/Projects/blackjack/app/features/Game/gameSlice.ts">
+        <metrics statements="44" coveredstatements="43" conditionals="7" coveredconditionals="6" methods="12" coveredmethods="12"/>
+        <line num="7" count="68" type="stmt"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="3" type="stmt"/>
+        <line num="28" count="32" type="cond" truecount="1" falsecount="0"/>
+        <line num="39" count="6" type="stmt"/>
+        <line num="41" count="6" type="stmt"/>
+        <line num="45" count="6" type="stmt"/>
+        <line num="47" count="6" type="stmt"/>
+        <line num="48" count="6" type="stmt"/>
+        <line num="51" count="6" type="stmt"/>
+        <line num="52" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+        <line num="58" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="63" count="6" type="stmt"/>
+        <line num="64" count="1" type="stmt"/>
+        <line num="67" count="26" type="stmt"/>
+        <line num="69" count="6" type="stmt"/>
+        <line num="73" count="2" type="stmt"/>
+        <line num="76" count="6" type="stmt"/>
+        <line num="77" count="1" type="stmt"/>
+        <line num="80" count="6" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="86" count="2" type="stmt"/>
+        <line num="87" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="89" count="2" type="stmt"/>
+        <line num="91" count="2" type="stmt"/>
+        <line num="92" count="2" type="stmt"/>
+        <line num="93" count="2" type="stmt"/>
+        <line num="96" count="8" type="stmt"/>
+        <line num="99" count="2" type="stmt"/>
+        <line num="100" count="8" type="cond" truecount="2" falsecount="0"/>
+        <line num="101" count="4" type="stmt"/>
+        <line num="102" count="4" type="stmt"/>
+        <line num="103" count="4" type="stmt"/>
+        <line num="105" count="4" type="stmt"/>
+        <line num="106" count="4" type="stmt"/>
+        <line num="107" count="4" type="stmt"/>
+        <line num="112" count="6" type="stmt"/>
+        <line num="113" count="11" type="stmt"/>
+        <line num="116" count="6" type="stmt"/>
+        <line num="140" count="6" type="stmt"/>
+        <line num="141" count="6" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.features.GameControls">
+      <metrics statements="43" coveredstatements="39" conditionals="28" coveredconditionals="26" methods="18" coveredmethods="14"/>
+      <file name="GameControls.styles.ts" path="/Users/joef/Projects/blackjack/app/features/GameControls/GameControls.styles.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="4" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="6" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="9" count="128" type="cond" truecount="1" falsecount="1"/>
+        <line num="16" count="2" type="stmt"/>
+      </file>
+      <file name="GameControls.tsx" path="/Users/joef/Projects/blackjack/app/features/GameControls/GameControls.tsx">
+        <metrics statements="12" coveredstatements="8" conditionals="4" coveredconditionals="4" methods="6" coveredmethods="2"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="14" count="351" type="stmt"/>
+        <line num="15" count="172" type="stmt"/>
+        <line num="17" count="172" type="cond" truecount="2" falsecount="0"/>
+        <line num="18" count="98" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="28" count="74" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="20" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="42" count="54" type="stmt"/>
+        <line num="47" count="0" type="stmt"/>
+        <line num="55" count="0" type="stmt"/>
+      </file>
+      <file name="utils.ts" path="/Users/joef/Projects/blackjack/app/features/GameControls/utils.ts">
+        <metrics statements="26" coveredstatements="26" conditionals="20" coveredconditionals="20" methods="11" coveredmethods="11"/>
+        <line num="7" count="7" type="stmt"/>
+        <line num="8" count="39" type="stmt"/>
+        <line num="9" count="2028" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="16" count="3" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+        <line num="23" count="209" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="30" count="92" type="cond" truecount="6" falsecount="0"/>
+        <line num="37" count="7" type="stmt"/>
+        <line num="42" count="85" type="cond" truecount="7" falsecount="0"/>
+        <line num="50" count="7" type="stmt"/>
+        <line num="55" count="31" type="cond" truecount="2" falsecount="0"/>
+        <line num="57" count="30" type="cond" truecount="2" falsecount="0"/>
+        <line num="59" count="22" type="stmt"/>
+        <line num="62" count="7" type="stmt"/>
+        <line num="67" count="63" type="stmt"/>
+        <line num="74" count="7" type="stmt"/>
+        <line num="75" count="37" type="stmt"/>
+        <line num="76" count="1924" type="stmt"/>
+        <line num="77" count="1924" type="stmt"/>
+        <line num="78" count="1924" type="stmt"/>
+        <line num="79" count="1924" type="stmt"/>
+        <line num="82" count="37" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.features.Hands">
+      <metrics statements="15" coveredstatements="15" conditionals="17" coveredconditionals="16" methods="4" coveredmethods="4"/>
+      <file name="Hand.styles.ts" path="/Users/joef/Projects/blackjack/app/features/Hands/Hand.styles.ts">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+      </file>
+      <file name="Hand.tsx" path="/Users/joef/Projects/blackjack/app/features/Hands/Hand.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="11" coveredconditionals="11" methods="2" coveredmethods="2"/>
+        <line num="15" count="2" type="stmt"/>
+        <line num="21" count="84" type="stmt"/>
+        <line num="34" count="8" type="stmt"/>
+      </file>
+      <file name="utils.ts" path="/Users/joef/Projects/blackjack/app/features/Hands/utils.ts">
+        <metrics statements="10" coveredstatements="10" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="2"/>
+        <line num="4" count="7" type="stmt"/>
+        <line num="5" count="21" type="cond" truecount="1" falsecount="1"/>
+        <line num="7" count="21" type="stmt"/>
+        <line num="8" count="21" type="stmt"/>
+        <line num="9" count="43" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="43" type="stmt"/>
+        <line num="13" count="21" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="3" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="18" count="21" type="stmt"/>
+      </file>
+    </package>
+    <package name="app.functions">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="useSelector.ts" path="/Users/joef/Projects/blackjack/app/functions/useSelector.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="4" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="test-utils">
+      <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+      <file name="index.tsx" path="/Users/joef/Projects/blackjack/test-utils/index.tsx">
+        <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="1" methods="2" coveredmethods="2"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="34" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="19" count="34" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

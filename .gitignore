@@ -12,6 +12,3 @@ web-report/
 
 # macOS
 .DS_Store
-
-# tests
-coverage

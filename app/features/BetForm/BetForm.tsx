@@ -12,6 +12,10 @@ const BetForm: React.FC<Props> = ({ onSubmit }) => {
   const [error, setError] = React.useState<string | null>(null);
   const { chips } = useSelector((state) => state.game);
 
+  function handleSubmit() {
+    if (typeof bet === "number") onSubmit(bet);
+  }
+
   return (
     <Container testID="BetForm">
       <Title category="h3">Place your bet</Title>
@@ -19,7 +23,9 @@ const BetForm: React.FC<Props> = ({ onSubmit }) => {
         autoFocus
         enablesReturnKeyAutomatically
         keyboardType="number-pad"
+        returnKeyType="go"
         value={bet || bet === 0 ? bet.toString() : ""}
+        onSubmitEditing={handleSubmit}
         onChangeText={(text) => {
           const number = parseInt(text);
 
@@ -45,9 +51,7 @@ const BetForm: React.FC<Props> = ({ onSubmit }) => {
       <Button
         disabled={!bet || !!error}
         size="large"
-        onPress={() => {
-          if (typeof bet === "number") onSubmit(bet);
-        }}
+        onPress={handleSubmit}
         testID="BetFormButton"
       >
         Bet

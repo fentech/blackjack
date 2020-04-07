@@ -1,9 +1,13 @@
 # Blackjack
 
-A straight-forward, cross-platform (Expo) Blackjack game, written in TypeScript. Coming soon to on web, iOS and Android.
+A straight-forward, cross-platform (Expo) Blackjack game, written in TypeScript.
 
-## Check out the app
+## Run the app
 
 ### Web
 
 http://fentech-blackjack-web.herokuapp.com/
+
+## Expo (Android & iOS)
+
+https://expo.io/@fentech/blackjack

@@ -97,16 +97,17 @@ const startNewRoundCR: CaseReducer<GameState, PayloadAction<number>> = (
   }
 
   for (let i = 0; i < 4; i++) {
+    const newCard = deal();
+
     if ((i + 1) % 2 === 0) {
-      const newCard = deal();
       state.dealer.cards.push(newCard);
-      state.dealer.score += getValue([newCard]);
     } else {
-      const newCard = deal();
       state.player.cards.push(newCard);
-      state.player.score += getValue([newCard]);
     }
   }
+
+  state.dealer.score += getValue(state.dealer.cards);
+  state.player.score += getValue(state.player.cards);
 };
 
 const toggleBettingCR: CaseReducer<GameState> = (state) => {

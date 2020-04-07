@@ -153,6 +153,63 @@ describe("game reducer", (): void => {
     it("should set isBetting to false", (): void => {
       expect(isBetting).toBe(true);
     });
+
+    describe("player wins round", (): void => {
+      const state: GameState = {
+        ...defaultState,
+        dealer: {
+          cards: [],
+          score: 20,
+        },
+        player: {
+          cards: [],
+          score: 21,
+        },
+      };
+      const { chips } = reducer(state, initNewRound());
+
+      it("should add player's bet to their chips", (): void => {
+        expect(chips).toBe(state.chips + state.bet);
+      });
+    });
+
+    describe("player loses round", (): void => {
+      const state: GameState = {
+        ...defaultState,
+        dealer: {
+          cards: [],
+          score: 21,
+        },
+        player: {
+          cards: [],
+          score: 20,
+        },
+      };
+      const { chips } = reducer(state, initNewRound());
+
+      it("should subtract player's bet from their chips", (): void => {
+        expect(chips).toBe(state.chips - state.bet);
+      });
+    });
+
+    describe("round was pushed", (): void => {
+      const state: GameState = {
+        ...defaultState,
+        dealer: {
+          cards: [],
+          score: 20,
+        },
+        player: {
+          cards: [],
+          score: 20,
+        },
+      };
+      const { chips } = reducer(state, initNewRound());
+
+      it("should not change player's chips", (): void => {
+        expect(chips).toBe(state.chips);
+      });
+    });
   });
 
   describe("'resetDeck' action", (): void => {

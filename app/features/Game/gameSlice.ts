@@ -1,7 +1,12 @@
 import { createSlice, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import { CardProps } from "../Card/Card";
 import { Person, Turn } from "../GameControls/types";
-import { createDeck, shuffleDeck, playerWins } from "../GameControls/utils";
+import {
+  createDeck,
+  shuffleDeck,
+  playerWins,
+  playerLoses,
+} from "../GameControls/utils";
 import { getValue } from "../Hands/utils";
 
 const resetPerson = () => ({ cards: [], score: 0 });
@@ -49,9 +54,10 @@ const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
 };
 
 const initNewRoundCR: CaseReducer<GameState> = (state) => {
-  if (playerWins(state.player.score, state.dealer.score, state.turn)) {
+  const { player, dealer, turn } = state;
+  if (playerWins(player.score, dealer.score, turn)) {
     state.chips += state.bet;
-  } else {
+  } else if (playerLoses(player.score, dealer.score, turn)) {
     state.chips -= state.bet;
   }
 

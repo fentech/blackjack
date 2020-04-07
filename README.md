@@ -10,10 +10,6 @@ A straight-forward, cross-platform (Expo) Blackjack game, written in TypeScript.
 
 ## Run the app
 
-### Web
+### [Web](fentech.github.io/blackjack)
 
-http://fentech-blackjack-web.herokuapp.com/
-
-## Expo (Android & iOS)
-
-https://expo.io/@fentech/blackjack
+## [Expo (Android & iOS)](https://expo.io/@fentech/blackjack)

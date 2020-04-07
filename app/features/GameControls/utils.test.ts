@@ -80,6 +80,12 @@ describe("isGameOver()", (): void => {
       it("should return false", (): void => {
         expect(isGameOver(20, 12, turn)).toBe(false);
       });
+
+      describe("player has blackjack", (): void => {
+        it("should return true", (): void => {
+          expect(isGameOver(21, 12, turn)).toBe(true);
+        });
+      });
     });
 
     describe("player busts", (): void => {
@@ -203,8 +209,16 @@ describe("playerWins()", (): void => {
   describe("player's turn", (): void => {
     const turn = "player";
 
-    it("should return false", (): void => {
-      expect(playerWins(21, 12, turn)).toBe(false);
+    describe("player doesn't have blackjack", (): void => {
+      it("should return false", (): void => {
+        expect(playerWins(20, 12, turn)).toBe(false);
+      });
+    });
+
+    describe("player has blackjack", (): void => {
+      it("should return true", (): void => {
+        expect(playerWins(21, 20, turn)).toBe(true);
+      });
     });
   });
 

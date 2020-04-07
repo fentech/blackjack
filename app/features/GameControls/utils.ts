@@ -39,13 +39,14 @@ export const playerWins = (
   dealerScore: number,
   turn: Turn
 ) =>
-  !personBusts(playerScore) &&
-  turn !== "player" &&
-  (personBusts(dealerScore) ||
-    (!turn &&
-      playerScore <= 21 &&
-      dealerScore <= 21 &&
-      playerScore > dealerScore));
+  (!personBusts(playerScore) &&
+    turn !== "player" &&
+    (personBusts(dealerScore) ||
+      (!turn &&
+        playerScore <= 21 &&
+        dealerScore <= 21 &&
+        playerScore > dealerScore))) ||
+  (turn === "player" && playerScore === 21);
 
 export const getEndGameStatus = (
   playerScore: number,

@@ -12,20 +12,9 @@ import { getEndGameStatus, isGameOver } from "../GameControls/utils";
 import useSelector from "../../functions/useSelector";
 
 export default function Game() {
-  const [gameOver, setGameOver] = React.useState(false);
-
   const dispatch = useDispatch();
-  const { player, dealer, turn, bet, chips, isBetting } = useSelector(
-    (state) => state.game
-  );
-
-  React.useEffect(() => {
-    if (isGameOver(player.score, dealer.score, turn) && !gameOver) {
-      setGameOver(true);
-    } else if (turn && gameOver) {
-      setGameOver(false);
-    }
-  }, [player, dealer, turn]);
+  const gameState = useSelector((state) => state.game);
+  const { player, dealer, turn, bet, chips, isBetting, gameOver } = gameState;
 
   React.useEffect(() => {
     if (turn === "dealer") {
@@ -33,7 +22,6 @@ export default function Game() {
         setTimeout(() => dispatch(hit("dealer")), 1000);
       } else {
         dispatch(setTurn(null));
-        setGameOver(true);
       }
     }
   }, [dealer, turn]);
@@ -46,9 +34,7 @@ export default function Game() {
     <Wrapper>
       <Title>Blackjack</Title>
       {gameOver ? (
-        <Status testID="Status">
-          {getEndGameStatus(player.score, dealer.score, turn)}
-        </Status>
+        <Status testID="Status">{getEndGameStatus(gameState)}</Status>
       ) : null}
       {!isBetting && (
         <Text testID="CurrentBet" category="h4">

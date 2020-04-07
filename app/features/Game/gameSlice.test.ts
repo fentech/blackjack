@@ -96,7 +96,7 @@ describe("toggleBetting() action creator", (): void => {
 
 describe("game reducer", (): void => {
   const defaultState: GameState = {
-    deck: [],
+    deck: createDeck(),
     dealer: {
       cards: [
         {
@@ -128,6 +128,7 @@ describe("game reducer", (): void => {
     turn: null,
     isBetting: false,
     isNewGame: false,
+    gameOver: false,
   };
 
   it("should return initial state", (): void => {
@@ -138,10 +139,28 @@ describe("game reducer", (): void => {
     it("should add a card for the specified user", (): void => {
       expect(reducer(undefined, hit("dealer")).dealer.cards.length).toBe(1);
     });
+
+    describe("deck is empty", (): void => {
+      const state = { ...defaultState, deck: [] };
+      const { deck } = reducer(state, hit("dealer"));
+
+      it("should reset the deck", (): void => {
+        expect(deck.length).toBe(51);
+      });
+    });
+
+    describe("game is over", (): void => {
+      it("should set gameOver to true", (): void => {
+        expect(reducer(defaultState, hit("player")).gameOver).toBe(true);
+      });
+    });
   });
 
   describe("'initNewRound' action", (): void => {
-    const { bet, chips, isBetting } = reducer(defaultState, initNewRound());
+    const { bet, chips, isBetting, gameOver } = reducer(
+      defaultState,
+      initNewRound()
+    );
 
     it("should adjust the player's chips", (): void => {
       expect(chips).toBe(110);
@@ -153,6 +172,10 @@ describe("game reducer", (): void => {
 
     it("should set isBetting to false", (): void => {
       expect(isBetting).toBe(true);
+    });
+
+    it("should set gameOver to false", (): void => {
+      expect(gameOver).toBe(false);
     });
 
     describe("player wins round", (): void => {
@@ -227,6 +250,7 @@ describe("game reducer", (): void => {
       chips,
       deck,
       dealer,
+      gameOver,
       isBetting,
       isNewGame,
       player,
@@ -261,6 +285,10 @@ describe("game reducer", (): void => {
     it("should set isNewGame to true", (): void => {
       expect(isNewGame).toBe(true);
     });
+
+    it("should set gameOver to false", (): void => {
+      expect(gameOver).toBe(false);
+    });
   });
 
   describe("'setTurn' action", (): void => {
@@ -268,6 +296,14 @@ describe("game reducer", (): void => {
       const { turn } = reducer(defaultState, setTurn("dealer"));
 
       expect(turn).toBe("dealer");
+    });
+
+    describe("turn is null", (): void => {
+      const { gameOver } = reducer(defaultState, setTurn(null));
+
+      it("should set gameOver to true", (): void => {
+        expect(gameOver).toBe(true);
+      });
     });
   });
 
@@ -338,6 +374,37 @@ describe("game reducer", (): void => {
     describe("'isNewGame' is false", (): void => {
       it("'isNewGame' should still be false", (): void => {
         expect(isNewGame).toBe(false);
+      });
+    });
+
+    describe("player has blackjack", (): void => {
+      const { gameOver } = reducer(
+        {
+          ...defaultState,
+          deck: [
+            {
+              rank: "ace",
+              suit: "diamonds",
+            },
+            {
+              rank: 2,
+              suit: "diamonds",
+            },
+            {
+              rank: "queen",
+              suit: "clubs",
+            },
+            {
+              rank: "queen",
+              suit: "diamonds",
+            },
+          ],
+        },
+        startNewRound(11)
+      );
+
+      it("should set gameOver to true", (): void => {
+        expect(gameOver).toBe(true);
       });
     });
   });

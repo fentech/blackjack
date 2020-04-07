@@ -8,6 +8,7 @@ import {
   playerLoses,
 } from "../GameControls/utils";
 import { getValue } from "../Hands/utils";
+import { isGameOver } from "../GameControls/utils";
 
 const resetPerson = () => ({ cards: [], score: 0 });
 
@@ -24,6 +25,7 @@ export interface GameState {
   chips: number;
   deck: CardProps[];
   dealer: PersonState;
+  gameOver: boolean;
   isBetting: boolean;
   isNewGame: boolean;
   player: PersonState;
@@ -35,6 +37,7 @@ export const deriveFromInitialState = (bet: number = 0): GameState => ({
   chips: 100,
   deck: shuffleDeck(createDeck()),
   dealer: resetPerson(),
+  gameOver: false,
   isBetting: true,
   isNewGame: true,
   player: resetPerson(),
@@ -47,23 +50,28 @@ const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
   state,
   action
 ) => {
+  if (!state.deck.length) newDeck(state);
+
   const newCard = state.deck.shift() as CardProps;
 
   state[action.payload].cards.push(newCard);
   state[action.payload].score = getValue(state[action.payload].cards);
+
+  if (isGameOver(state)) state.gameOver = true;
 };
 
 const initNewRoundCR: CaseReducer<GameState> = (state) => {
-  const { player, dealer, turn } = state;
-  if (playerWins(player.score, dealer.score, turn)) {
+  if (playerWins(state)) {
     state.chips += state.bet;
-  } else if (playerLoses(player.score, dealer.score, turn)) {
+  } else if (playerLoses(state)) {
     state.chips -= state.bet;
   }
 
   state.isBetting = true;
 
   state.bet = 0;
+
+  state.gameOver = false;
 };
 
 const resetDeckCR: CaseReducer<GameState> = (state) => {
@@ -77,6 +85,8 @@ const setTurnCR: CaseReducer<GameState, PayloadAction<Turn>> = (
   action
 ) => {
   state.turn = action.payload;
+
+  if (action.payload === null) state.gameOver = true;
 };
 
 const standCR: CaseReducer<GameState> = (state) => {
@@ -114,6 +124,8 @@ const startNewRoundCR: CaseReducer<GameState, PayloadAction<number>> = (
 
   state.dealer.score += getValue(state.dealer.cards);
   state.player.score += getValue(state.player.cards);
+
+  if (isGameOver(state)) state.gameOver = true;
 };
 
 const toggleBettingCR: CaseReducer<GameState> = (state) => {

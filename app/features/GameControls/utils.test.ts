@@ -10,6 +10,25 @@ import {
   shuffleDeck,
 } from "./utils";
 import deepEquals from "lodash/isEqual";
+import { PartialGameState } from "./utils";
+import { Turn } from "./types";
+
+const createPartialState = (
+  playerScore: number,
+  dealerScore: number,
+  turn: Turn,
+  state: Partial<PartialGameState> = {}
+): PartialGameState => ({
+  dealer: {
+    cards: state.dealer ? state.dealer.cards : [],
+    score: dealerScore,
+  },
+  player: {
+    cards: state.player ? state.player.cards : [],
+    score: playerScore,
+  },
+  turn,
+});
 
 describe("createDeck()", (): void => {
   it("should return an array of 52 cards", (): void => {
@@ -29,21 +48,39 @@ describe("createDeck()", (): void => {
 });
 
 describe("getEndGameStatus()", (): void => {
+  const partialState: PartialGameState = {
+    dealer: {
+      cards: [],
+      score: 0,
+    },
+    player: {
+      cards: [],
+      score: 0,
+    },
+    turn: "player",
+  };
+
   describe("player wins", (): void => {
     it("should return 'YOU WIN!!'", (): void => {
-      expect(getEndGameStatus(21, 20, null)).toBe("YOU WIN!!");
+      expect(
+        getEndGameStatus(createPartialState(21, 20, null, partialState))
+      ).toBe("YOU WIN!!");
     });
   });
 
   describe("player loses", (): void => {
     it("should return 'You lost...'", (): void => {
-      expect(getEndGameStatus(20, 21, null)).toBe("You lost...");
+      expect(
+        getEndGameStatus(createPartialState(20, 21, null, partialState))
+      ).toBe("You lost...");
     });
   });
 
   describe("player ties dealer", (): void => {
     it("should return 'Pushed'", (): void => {
-      expect(getEndGameStatus(21, 21, null)).toBe("Pushed");
+      expect(
+        getEndGameStatus(createPartialState(21, 21, null, partialState))
+      ).toBe("Pushed");
     });
   });
 });
@@ -63,13 +100,31 @@ describe("getHiddenCardValue()", (): void => {
 });
 
 describe("isGameOver()", (): void => {
+  const partialState: PartialGameState = {
+    dealer: {
+      cards: [],
+      score: 0,
+    },
+    player: {
+      cards: [],
+      score: 0,
+    },
+    turn: "player",
+  };
+
   describe("nobody's turn", (): void => {
     const turn = null;
 
     it("should return true", (): void => {
-      expect(isGameOver(21, 20, turn)).toBe(true);
-      expect(isGameOver(20, 21, turn)).toBe(true);
-      expect(isGameOver(20, 20, turn)).toBe(true);
+      expect(isGameOver(createPartialState(21, 20, turn, partialState))).toBe(
+        true
+      );
+      expect(isGameOver(createPartialState(20, 21, turn, partialState))).toBe(
+        true
+      );
+      expect(isGameOver(createPartialState(20, 20, turn, partialState))).toBe(
+        true
+      );
     });
   });
 
@@ -78,19 +133,58 @@ describe("isGameOver()", (): void => {
 
     describe("player hasn't busted", (): void => {
       it("should return false", (): void => {
-        expect(isGameOver(20, 12, turn)).toBe(false);
+        expect(isGameOver(createPartialState(20, 12, turn, partialState))).toBe(
+          false
+        );
       });
 
       describe("player has blackjack", (): void => {
-        it("should return true", (): void => {
-          expect(isGameOver(21, 12, turn)).toBe(true);
+        describe("start of the round", (): void => {
+          it("should return true", (): void => {
+            expect(
+              isGameOver(
+                createPartialState(21, 12, turn, {
+                  ...partialState,
+                  player: {
+                    cards: [
+                      { rank: "ace", suit: "clubs" },
+                      { rank: "king", suit: "clubs" },
+                    ],
+                    score: 21,
+                  },
+                })
+              )
+            ).toBe(true);
+          });
+        });
+
+        describe("after the start of the round", (): void => {
+          it("should return false", (): void => {
+            expect(
+              isGameOver(
+                createPartialState(21, 12, turn, {
+                  ...partialState,
+                  player: {
+                    cards: [
+                      { rank: "ace", suit: "clubs" },
+                      { rank: "king", suit: "clubs" },
+                      { rank: "king", suit: "clubs" },
+                    ],
+                    score: 21,
+                  },
+                })
+              )
+            ).toBe(false);
+          });
         });
       });
     });
 
     describe("player busts", (): void => {
       it("should return true", (): void => {
-        expect(isGameOver(22, 12, turn)).toBe(true);
+        expect(isGameOver(createPartialState(22, 12, turn, partialState))).toBe(
+          true
+        );
       });
     });
   });
@@ -100,107 +194,167 @@ describe("isGameOver()", (): void => {
 
     describe("dealer hasn't busted", (): void => {
       it("should return false", (): void => {
-        expect(isGameOver(20, 12, turn)).toBe(false);
+        expect(isGameOver(createPartialState(20, 12, turn, partialState))).toBe(
+          false
+        );
       });
     });
 
     describe("dealer busts", (): void => {
       it("should return true", (): void => {
-        expect(isGameOver(20, 22, turn)).toBe(true);
+        expect(isGameOver(createPartialState(20, 22, turn, partialState))).toBe(
+          true
+        );
       });
     });
   });
 });
 
 describe("playerLoses()", (): void => {
+  const partialState: PartialGameState = {
+    dealer: {
+      cards: [],
+      score: 0,
+    },
+    player: {
+      cards: [],
+      score: 0,
+    },
+    turn: "player",
+  };
+
   describe("nobody's turn", (): void => {
     describe("player busts", (): void => {
       it("should return true", (): void => {
-        expect(playerLoses(22, 12, null)).toBe(true);
+        expect(
+          playerLoses(createPartialState(22, 12, null, partialState))
+        ).toBe(true);
       });
     });
 
     describe("dealer busts", (): void => {
       it("should return false", (): void => {
-        expect(playerLoses(12, 22, null)).toBe(false);
+        expect(
+          playerLoses(createPartialState(12, 22, null, partialState))
+        ).toBe(false);
       });
     });
 
     describe("player and dealer haven't busted", (): void => {
       describe("player's score is greater than dealer's", (): void => {
         it("should return false", (): void => {
-          expect(playerLoses(21, 20, null)).toBe(false);
+          expect(
+            playerLoses(createPartialState(21, 20, null, partialState))
+          ).toBe(false);
         });
       });
 
       describe("player's score is less than dealer's", (): void => {
         it("should return true", (): void => {
-          expect(playerLoses(20, 21, null)).toBe(true);
+          expect(
+            playerLoses(createPartialState(20, 21, null, partialState))
+          ).toBe(true);
         });
       });
 
       describe("player's score is equal to dealer's", (): void => {
         it("should return false", (): void => {
-          expect(playerLoses(21, 21, null)).toBe(false);
+          expect(
+            playerLoses(createPartialState(21, 21, null, partialState))
+          ).toBe(false);
         });
       });
     });
   });
 
   describe("player's turn", (): void => {
+    const turn = "player";
+
     describe("player busts", (): void => {
       it("should return true", (): void => {
-        expect(playerLoses(22, 12, "player")).toBe(true);
+        expect(
+          playerLoses(createPartialState(22, 12, turn, partialState))
+        ).toBe(true);
       });
     });
 
     describe("player hasn't busted", (): void => {
       it("should return false", (): void => {
-        expect(playerLoses(21, 20, "player")).toBe(false);
+        expect(
+          playerLoses(createPartialState(21, 20, turn, partialState))
+        ).toBe(false);
       });
     });
   });
 
   describe("dealer's turn", (): void => {
+    const turn = "dealer";
+
     it("should return false", (): void => {
-      expect(playerLoses(20, 22, "dealer")).toBe(false);
-      expect(playerLoses(20, 21, "dealer")).toBe(false);
+      expect(playerLoses(createPartialState(20, 22, turn, partialState))).toBe(
+        false
+      );
+      expect(playerLoses(createPartialState(20, 21, turn, partialState))).toBe(
+        false
+      );
     });
   });
 });
 
 describe("playerWins()", (): void => {
+  const partialState: PartialGameState = {
+    dealer: {
+      cards: [],
+      score: 0,
+    },
+    player: {
+      cards: [],
+      score: 0,
+    },
+    turn: "player",
+  };
+
   describe("nobody's turn", (): void => {
     const turn = null;
 
     describe("player busts", (): void => {
       it("should return false", (): void => {
-        expect(playerWins(22, 12, turn)).toBe(false);
+        expect(playerWins(createPartialState(22, 12, turn, partialState))).toBe(
+          false
+        );
       });
     });
 
     describe("dealer busts", (): void => {
       it("should return true", (): void => {
-        expect(playerWins(12, 22, turn)).toBe(true);
+        expect(playerWins(createPartialState(12, 22, turn, partialState))).toBe(
+          true
+        );
       });
     });
 
     describe("player and dealer haven't busted", (): void => {
       describe("player's score is greater than dealer's", (): void => {
         it("should return true", (): void => {
-          expect(playerWins(21, 20, turn)).toBe(true);
+          expect(
+            playerWins(createPartialState(21, 20, turn, partialState))
+          ).toBe(true);
         });
       });
 
       describe("player's score is less than dealer's", (): void => {
         it("should return false", (): void => {
-          expect(playerWins(20, 21, turn)).toBe(false);
+          expect(
+            playerWins(createPartialState(20, 21, turn, partialState))
+          ).toBe(false);
         });
       });
 
       describe("player's score is equal to dealer's", (): void => {
         it("should return false", (): void => {
-          expect(playerWins(21, 21, turn)).toBe(false);
+          expect(
+            playerWins(createPartialState(21, 21, turn, partialState))
+          ).toBe(false);
         });
       });
     });
@@ -211,13 +365,50 @@ describe("playerWins()", (): void => {
 
     describe("player doesn't have blackjack", (): void => {
       it("should return false", (): void => {
-        expect(playerWins(20, 12, turn)).toBe(false);
+        expect(playerWins(createPartialState(20, 12, turn, partialState))).toBe(
+          false
+        );
       });
     });
 
     describe("player has blackjack", (): void => {
-      it("should return true", (): void => {
-        expect(playerWins(21, 20, turn)).toBe(true);
+      describe("start of the round", (): void => {
+        it("should return true", (): void => {
+          expect(
+            playerWins(
+              createPartialState(21, 12, turn, {
+                ...partialState,
+                player: {
+                  cards: [
+                    { rank: "ace", suit: "clubs" },
+                    { rank: "king", suit: "clubs" },
+                  ],
+                  score: 21,
+                },
+              })
+            )
+          ).toBe(true);
+        });
+      });
+
+      describe("after the start of the round", (): void => {
+        it("should return false", (): void => {
+          expect(
+            playerWins(
+              createPartialState(21, 12, turn, {
+                ...partialState,
+                player: {
+                  cards: [
+                    { rank: "ace", suit: "clubs" },
+                    { rank: "king", suit: "clubs" },
+                    { rank: "king", suit: "clubs" },
+                  ],
+                  score: 21,
+                },
+              })
+            )
+          ).toBe(false);
+        });
       });
     });
   });
@@ -227,13 +418,17 @@ describe("playerWins()", (): void => {
 
     describe("dealer busts", (): void => {
       it("should return true", (): void => {
-        expect(playerWins(20, 22, turn)).toBe(true);
+        expect(playerWins(createPartialState(20, 22, turn, partialState))).toBe(
+          true
+        );
       });
     });
 
     describe("dealer hasn't busted", (): void => {
       it("should return false", (): void => {
-        expect(playerWins(20, 19, turn)).toBe(false);
+        expect(playerWins(createPartialState(20, 19, turn, partialState))).toBe(
+          false
+        );
       });
     });
   });

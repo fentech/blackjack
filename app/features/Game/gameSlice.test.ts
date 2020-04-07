@@ -1,4 +1,5 @@
 import { getValue } from "../Hands/utils";
+import { createDeck } from "../GameControls/utils";
 import reducer, {
   GameState,
   hit,
@@ -279,16 +280,10 @@ describe("game reducer", (): void => {
   });
 
   describe("'startNewRound' action", (): void => {
-    const { bet, deck, dealer, isBetting, isNewGame, player, turn } = reducer(
+    const { bet, dealer, isBetting, isNewGame, player, turn } = reducer(
       defaultState,
       startNewRound(11)
     );
-
-    it("should reset deck and deal starting cards", (): void => {
-      expect(deck.length).toBe(48);
-      expect(player.cards.length).toBe(2);
-      expect(dealer.cards.length).toBe(2);
-    });
 
     it("should set dealer and player scores", (): void => {
       expect(player.score).toBe(getValue(player.cards));
@@ -305,6 +300,29 @@ describe("game reducer", (): void => {
 
     it("should set isBetting to false", (): void => {
       expect(isBetting).toBe(false);
+    });
+
+    describe("deck is empty", (): void => {
+      const state = { ...defaultState, deck: [] };
+      const { deck, dealer, player } = reducer(state, startNewRound(11));
+
+      it("should reset deck and deal starting cards", (): void => {
+        expect(deck.length).toBe(48);
+        expect(player.cards.length).toBe(2);
+        expect(dealer.cards.length).toBe(2);
+      });
+    });
+
+    describe("deck is almost empty", (): void => {
+      const newDeck = [...createDeck().slice(0, 2)];
+      const state = { ...defaultState, deck: newDeck };
+      const { deck, dealer, player } = reducer(state, startNewRound(11));
+
+      it("should reset deck and deal starting cards", (): void => {
+        expect(deck.length).toBe(50);
+        expect(player.cards.length).toBe(2);
+        expect(dealer.cards.length).toBe(2);
+      });
     });
 
     describe("'isNewGame' is true", (): void => {

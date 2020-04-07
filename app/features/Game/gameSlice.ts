@@ -87,8 +87,6 @@ const startNewRoundCR: CaseReducer<GameState, PayloadAction<number>> = (
   state,
   { payload }
 ) => {
-  newDeck(state);
-
   state.isBetting = false;
   if (state.isNewGame) state.isNewGame = false;
 
@@ -99,6 +97,8 @@ const startNewRoundCR: CaseReducer<GameState, PayloadAction<number>> = (
   state.player = resetPerson();
 
   function deal() {
+    if (!state.deck.length) newDeck(state);
+
     return state.deck.shift() as CardProps;
   }
 

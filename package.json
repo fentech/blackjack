@@ -6,7 +6,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "deploy:web": "yarn predeploy:web && gh-pages -d web-build",
+    "deploy-web": "yarn predeploy:web && gh-pages -d web-build",
     "predeploy:web": "expo build:web",
     "eject": "expo eject",
     "test": "jest",

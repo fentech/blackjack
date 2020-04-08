@@ -2,7 +2,7 @@ import React from "react";
 import { render, Matcher, MatcherOptions, fireEvent, act } from "test-utils";
 import GameControls from "./GameControls";
 import store from "../../store";
-import { resetGame, toggleBetting } from "../Game/gameSlice";
+import { resetGame, toggleBetting, setTurn } from "../Game/gameSlice";
 
 type MemoCB = (getters: {
   getByTestId: (
@@ -76,6 +76,26 @@ describe("GameControls", (): void => {
       it("should not render a 'Play Again' button", (): void => {
         assert(({ queryByTestId }) => {
           expect(queryByTestId("PlayAgainButton")).toBeFalsy();
+        });
+      });
+
+      describe("dealer's turn", (): void => {
+        beforeEach((): void => {
+          act((): void => {
+            store.dispatch(setTurn("dealer"));
+          });
+        });
+
+        it("should diable the 'Hit' button", (): void => {
+          assert(({ getByTestId }) => {
+            expect(getByTestId("HitButton").props.disabled).toBeTruthy();
+          });
+        });
+
+        it("should diable the 'Stand' button", (): void => {
+          assert(({ getByTestId }) => {
+            expect(getByTestId("StandButton").props.disabled).toBeTruthy();
+          });
         });
       });
     });

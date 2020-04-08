@@ -3,12 +3,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { hit, setTurn, resetGame } from "./gameSlice";
 // components
-import { Text } from "@ui-kitten/components";
 import GameControls from "../GameControls/GameControls";
 import Hand from "../Hands/Hand";
-import { HandContainer, Status, Title, Wrapper } from "./Game.styles";
+import Header from "../Header/Header";
+import { HandContainer, GameWrapper } from "./Game.styles";
 // utils
-import { getEndGameStatus, isGameOver } from "../GameControls/utils";
 import useSelector from "../../functions/useSelector";
 
 export default function Game() {
@@ -31,17 +30,8 @@ export default function Game() {
   }, [chips]);
 
   return (
-    <Wrapper>
-      <Title>Blackjack</Title>
-      {gameOver ? (
-        <Status testID="Status">{getEndGameStatus(gameState)}</Status>
-      ) : null}
-      {!isBetting && (
-        <Text testID="CurrentBet" category="h4">
-          Current bet: {bet.toString()}
-        </Text>
-      )}
-      <Text category="h5">Total chips: {chips.toString()}</Text>
+    <GameWrapper>
+      <Header />
       {!isBetting && (
         <HandContainer testID="Cards">
           <Hand
@@ -54,6 +44,6 @@ export default function Game() {
         </HandContainer>
       )}
       <GameControls gameOver={gameOver} />
-    </Wrapper>
+    </GameWrapper>
   );
 }

@@ -72,6 +72,9 @@ describe("Game", (): void => {
         store.dispatch(hit("player"));
         store.dispatch(hit("player"));
         store.dispatch(hit("player"));
+        store.dispatch(hit("player"));
+        store.dispatch(hit("player"));
+        store.dispatch(hit("player"));
       });
 
       expect(getByTestId("Status")).toBeTruthy();

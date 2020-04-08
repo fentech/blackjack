@@ -17,10 +17,12 @@ const Hand: React.FC<Props & Testable> = ({
   personState,
   testID = "Hand",
 }) => {
+  const personTitle = person[0].toUpperCase() + person.slice(1);
+
   return (
     <Container testID={testID}>
       <Name testID="HandName">
-        {person[0].toUpperCase() + person.slice(1)} -{" "}
+        {personTitle} -{" "}
         {personState.cards.length &&
           (person == "dealer" && hideCard
             ? getHiddenCardValue(personState)
@@ -28,9 +30,11 @@ const Hand: React.FC<Props & Testable> = ({
       </Name>
       <CardContainer>
         {person == "dealer" && hideCard ? (
-          <Card {...personState.cards[0]} />
+          <Card testID="DealerCard" {...personState.cards[0]} />
         ) : (
-          personState.cards.map((card, index) => <Card key={index} {...card} />)
+          personState.cards.map((card, index) => (
+            <Card testID={`${personTitle}Card`} key={index} {...card} />
+          ))
         )}
       </CardContainer>
     </Container>

@@ -100,11 +100,11 @@ describe("game reducer", (): void => {
     dealer: {
       cards: [
         {
-          rank: 2,
+          rank: "two",
           suit: "diamonds",
         },
         {
-          rank: 5,
+          rank: "five",
           suit: "clubs",
         },
       ],
@@ -113,7 +113,7 @@ describe("game reducer", (): void => {
     player: {
       cards: [
         {
-          rank: 10,
+          rank: "ten",
           suit: "diamonds",
         },
         {
@@ -387,7 +387,7 @@ describe("game reducer", (): void => {
               suit: "diamonds",
             },
             {
-              rank: 2,
+              rank: "two",
               suit: "diamonds",
             },
             {

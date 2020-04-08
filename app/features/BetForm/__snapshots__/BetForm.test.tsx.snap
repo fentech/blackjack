@@ -711,8 +711,8 @@ exports[`BetForm should match snapshot 1`] = `
             style={
               Array [
                 Object {
-                  "backgroundColor": "#F7F9FC",
-                  "borderColor": "#3366FF",
+                  "backgroundColor": "rgba(255,255,255,0.2)",
+                  "borderColor": "#E4E9F2",
                   "borderRadius": 4,
                   "borderWidth": 1,
                   "captionFontFamily": "System",
@@ -732,12 +732,16 @@ exports[`BetForm should match snapshot 1`] = `
             <TextInput
               allowFontScaling={true}
               appearance="default"
+              autoFocus={true}
               caption=""
               editable={true}
+              enablesReturnKeyAutomatically={true}
+              keyboardType="number-pad"
               placeholderTextColor="#8F9BB3"
               rejectResponderTermination={true}
+              returnKeyType="go"
               size="medium"
-              status="primary"
+              status="basic"
               style={
                 Array [
                   Object {
@@ -1074,7 +1078,7 @@ exports[`BetForm should match snapshot 1`] = `
                 }
               }
               underlineColorAndroid="transparent"
-              value=""
+              value="10"
             />
           </View>
           <View
@@ -1094,20 +1098,20 @@ exports[`BetForm should match snapshot 1`] = `
         <TouchableOpacity
           activeOpacity={1}
           appearance="filled"
-          disabled={true}
-          size="large"
-          status="primary"
+          disabled={false}
+          size="giant"
+          status="warning"
           style={
             Array [
               Object {
-                "backgroundColor": "rgba(143, 155, 179, 0.24)",
-                "borderColor": "rgba(143, 155, 179, 0.24)",
+                "backgroundColor": "#FFAA00",
+                "borderColor": "#FFAA00",
                 "borderRadius": 4,
                 "borderWidth": 1,
-                "minHeight": 48,
-                "minWidth": 48,
-                "paddingHorizontal": 10,
-                "paddingVertical": 14,
+                "minHeight": 56,
+                "minWidth": 56,
+                "paddingHorizontal": 12,
+                "paddingVertical": 16,
               },
               Object {
                 "alignItems": "center",
@@ -1450,12 +1454,12 @@ exports[`BetForm should match snapshot 1`] = `
                 },
                 Array [
                   Object {
-                    "color": "rgba(143, 155, 179, 0.48)",
+                    "color": "#FFFFFF",
                     "fontFamily": "System",
-                    "fontSize": 16,
+                    "fontSize": 18,
                     "fontWeight": "bold",
-                    "lineHeight": 20,
-                    "marginHorizontal": 10,
+                    "lineHeight": 24,
+                    "marginHorizontal": 12,
                   },
                   Object {},
                   undefined,

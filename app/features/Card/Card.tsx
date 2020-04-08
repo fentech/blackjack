@@ -72,8 +72,10 @@ const ImageContainer = styled.View`
   margin-right: 10px;
 `;
 
-const Card: React.FC<CardProps> = ({ suit, rank }) => {
-  const cards = {
+const Card: React.FC<CardProps & Testable> = ({ suit, rank, testID }) => {
+  if (!rank || !suit) return null;
+
+  const cards: Record<string, any> = {
     jackOfSpades,
     jackOfDiamonds,
     jackOfClubs,
@@ -131,7 +133,7 @@ const Card: React.FC<CardProps> = ({ suit, rank }) => {
   const card = cards[cardKey];
 
   return (
-    <ImageContainer>
+    <ImageContainer testID={testID}>
       <Image style={{ flex: 1 }} resizeMode="contain" source={card} />
     </ImageContainer>
   );

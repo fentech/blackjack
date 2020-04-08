@@ -6,7 +6,12 @@ import { resetGame } from "../Game/gameSlice";
 
 describe("BetForm", (): void => {
   const onSubmit = jest.fn();
-  const ui = <BetForm onSubmit={onSubmit} />;
+  const ui = (
+    <BetForm
+      buttonProps={{ appearance: "outline", size: "giant", status: "warning" }}
+      onSubmit={onSubmit}
+    />
+  );
 
   afterEach((): void => {
     act((): void => {
@@ -27,6 +32,8 @@ describe("BetForm", (): void => {
       const { getByTestId } = render(ui);
       const input = getByTestId("BetFormInput");
       const button = getByTestId("BetFormButton");
+
+      fireEvent.changeText(input, "a");
 
       expect(button.props.disabled).toBeTruthy();
 

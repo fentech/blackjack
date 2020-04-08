@@ -6,7 +6,7 @@ import { getValue } from "./utils";
 
 const defaultPersonState: PersonState = {
   cards: [
-    { rank: 2, suit: "clubs" },
+    { rank: "two", suit: "clubs" },
     { rank: "ace", suit: "hearts" },
   ],
   score: 13,
@@ -23,13 +23,11 @@ describe("Hand", () => {
     });
 
     it("should display all of the players cards", (): void => {
-      const { getByText } = render(
+      const { getAllByTestId } = render(
         <Hand person="player" personState={defaultPersonState} />
       );
 
-      defaultPersonState.cards.forEach((card) => {
-        expect(getByText(`${card.rank} of ${card.suit}`)).toBeTruthy();
-      });
+      expect(getAllByTestId("PlayerCard")).toHaveLength(2);
     });
   });
 
@@ -48,7 +46,7 @@ describe("Hand", () => {
       });
 
       it("should display all of the dealer's cards", (): void => {
-        const { getByText } = render(
+        const { getAllByTestId } = render(
           <Hand
             person="dealer"
             personState={defaultPersonState}
@@ -56,9 +54,7 @@ describe("Hand", () => {
           />
         );
 
-        defaultPersonState.cards.forEach((card) => {
-          expect(getByText(`${card.rank} of ${card.suit}`)).toBeTruthy();
-        });
+        expect(getAllByTestId("DealerCard")).toHaveLength(2);
       });
     });
 
@@ -82,7 +78,7 @@ describe("Hand", () => {
       });
 
       it("should only display the dealer's first card", (): void => {
-        const { getByText, queryByText } = render(
+        const { getAllByTestId } = render(
           <Hand
             person="dealer"
             personState={defaultPersonState}
@@ -90,13 +86,7 @@ describe("Hand", () => {
           />
         );
 
-        defaultPersonState.cards.forEach((card, i) => {
-          if (i === 0) {
-            expect(getByText(`${card.rank} of ${card.suit}`)).toBeTruthy();
-          } else {
-            expect(queryByText(`${card.rank} of ${card.suit}`)).toBeFalsy();
-          }
-        });
+        expect(getAllByTestId("DealerCard")).toHaveLength(1);
       });
     });
   });

@@ -2,12 +2,14 @@ import React from "react";
 import { Button } from "@ui-kitten/components";
 import { Container, Input, Title } from "./BetForm.styles";
 import useSelector from "../../functions/useSelector";
+import { GameControlButtonProps } from "../GameControls/GameControls";
 
 interface Props {
+  buttonProps: GameControlButtonProps;
   onSubmit(bet: number): void;
 }
 
-const BetForm: React.FC<Props> = ({ onSubmit }) => {
+const BetForm: React.FC<Props> = ({ buttonProps, onSubmit }) => {
   const [bet, setBet] = React.useState<number | string | null>(10);
   const [error, setError] = React.useState<string | null>(null);
   const { chips } = useSelector((state) => state.game);
@@ -44,13 +46,18 @@ const BetForm: React.FC<Props> = ({ onSubmit }) => {
             }
           }
         }}
-        status={!error ? "primary" : "danger"}
+        status={!error ? "basic" : "danger"}
         caption={!error ? "" : error}
         testID="BetFormInput"
+        style={{
+          backgroundColor: "rgba(255,255,255,0.2)",
+        }}
       />
       <Button
+        {...buttonProps}
+        appearance="filled"
         disabled={!bet || !!error}
-        size="large"
+        size="giant"
         onPress={handleSubmit}
         testID="BetFormButton"
       >

@@ -1,63 +1,79 @@
 import React from "react";
-import { Button, ButtonText } from "./GameControls.styles";
 import { useDispatch } from "react-redux";
-import { hit, initNewRound, setTurn, startNewRound } from "../Game/gameSlice";
-import BetForm from "../BetForm/BetForm";
 import useSelector from "../../functions/useSelector";
-import { View } from "react-native";
+import { hit, initNewRound, setTurn, startNewRound } from "../Game/gameSlice";
+import { Container, Button } from "./GameControls.styles";
+import BetForm from "../BetForm/BetForm";
 
 interface Props {
   gameOver: boolean;
 }
 
+export interface GameControlButtonProps {
+  size: "giant";
+  appearance: "outline";
+  status: "warning";
+}
+
 const GameControls: React.FC<Props> = ({ gameOver }) => {
-  const { isBetting } = useSelector((state) => state.game);
+  const { isBetting, turn } = useSelector((state) => state.game);
   const dispatch = useDispatch();
+  const buttonProps: GameControlButtonProps = {
+    size: "giant",
+    appearance: "outline",
+    status: "warning",
+  };
 
   if (isBetting)
     return (
-      <View testID="GameControls">
+      <Container testID="GameControls" $flex={3}>
         <BetForm
+          buttonProps={buttonProps}
           onSubmit={(bet) => {
             dispatch(startNewRound(bet));
           }}
         />
-      </View>
+      </Container>
     );
 
   if (gameOver)
     return (
-      <View testID="GameControls">
+      <Container testID="GameControls">
         <Button
           testID="PlayAgainButton"
+          {...buttonProps}
           onPress={() => {
             dispatch(initNewRound());
           }}
         >
-          <ButtonText>Play Again</ButtonText>
+          Play Again
         </Button>
-      </View>
+      </Container>
     );
 
   return (
-    <View testID="GameControls">
+    <Container testID="GameControls">
       <Button
+        disabled={turn === "dealer"}
         testID="HitButton"
+        {...buttonProps}
         onPress={() => {
           dispatch(hit("player"));
         }}
       >
-        <ButtonText>Hit</ButtonText>
+        Hit
       </Button>
       <Button
+        disabled={turn === "dealer"}
         testID="StandButton"
+        {...buttonProps}
         onPress={() => {
           dispatch(setTurn("dealer"));
         }}
       >
-        <ButtonText>Stand</ButtonText>
+        Stand
       </Button>
-    </View>
+    </Container>
   );
 };
 

@@ -9,6 +9,7 @@ interface Props {
   hideCard?: boolean;
   person: Person;
   personState: PersonState;
+  last?: boolean;
 }
 
 const Hand: React.FC<Props & Testable> = ({
@@ -16,11 +17,12 @@ const Hand: React.FC<Props & Testable> = ({
   person,
   personState,
   testID = "Hand",
+  last = false,
 }) => {
   const personTitle = person[0].toUpperCase() + person.slice(1);
 
   return (
-    <Container testID={testID}>
+    <Container $last={last} testID={testID}>
       <Name testID="HandName">
         {personTitle} -{" "}
         {personState.cards.length &&

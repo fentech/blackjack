@@ -6,7 +6,7 @@ import { hit, setTurn, resetGame } from "./gameSlice";
 import GameControls from "../GameControls/GameControls";
 import Hand from "../Hands/Hand";
 import Header from "../Header/Header";
-import { HandContainer, GameWrapper } from "./Game.styles";
+import { HandContainer, GameWrapper, HandWrapper } from "./Game.styles";
 // utils
 import useSelector from "../../functions/useSelector";
 
@@ -34,13 +34,20 @@ export default function Game() {
       <Header />
       {!isBetting && (
         <HandContainer testID="Cards">
-          <Hand
-            hideCard={turn === "player"}
-            person="dealer"
-            personState={dealer}
-            testID="DealerHand"
-          />
-          <Hand person="player" personState={player} testID="PlayerHand" />
+          <HandWrapper level="2">
+            <Hand
+              hideCard={turn === "player"}
+              person="dealer"
+              personState={dealer}
+              testID="DealerHand"
+            />
+            <Hand
+              last
+              person="player"
+              personState={player}
+              testID="PlayerHand"
+            />
+          </HandWrapper>
         </HandContainer>
       )}
       <GameControls gameOver={gameOver} />

@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 import { Text } from "@ui-kitten/components";
 
 export const Container = styled.View`
-  margin-bottom: 30px;
+  ${({ $last }: { $last: boolean }) => (!$last ? "margin-bottom: 30px;" : null)}
 `;
 
 export const Name = styled(Text)`

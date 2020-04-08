@@ -4,15 +4,17 @@ import { Text } from "@ui-kitten/components";
 export const HeaderContainer = styled.View`
   justify-content: space-between;
   flex: 1;
+  display: flex;
+  min-height: 40px;
 `;
 
 export const Status = styled(Text)`
   font-size: 28px;
   line-height: 28px;
   text-align: center;
-  flex: 2;
   font-weight: 300;
   letter-spacing: 1px;
+  margin: 5px 0;
 `;
 
 export const Title = styled(Text)`

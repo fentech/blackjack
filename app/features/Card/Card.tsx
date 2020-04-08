@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Image } from "react-native";
+import { Image, Dimensions } from "react-native";
 import twoOfSpades from "./cards/2_of_spades.png";
 import twoOfDiamonds from "./cards/2_of_diamonds.png";
 import twoOfClubs from "./cards/2_of_clubs.png";
@@ -60,6 +60,11 @@ export interface CardProps {
   rank: Ranks;
 }
 
+const deviceHeight = Dimensions.get("screen").height;
+const ratio = 80 / 115;
+const height = deviceHeight * 0.11;
+const width = height * ratio;
+
 const ImageContainer = styled.View`
   background-color: #fff;
   border-radius: 3px;
@@ -67,8 +72,8 @@ const ImageContainer = styled.View`
   align-self: flex-start;
   justify-content: center;
   align-items: center;
-  width: 80px;
-  height: 115px;
+  width: ${width}px;
+  height: ${height}px;
   margin-right: 10px;
 `;
 

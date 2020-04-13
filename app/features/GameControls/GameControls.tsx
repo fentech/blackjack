@@ -5,18 +5,14 @@ import { hit, initNewRound, setTurn, startNewRound } from "../Game/gameSlice";
 import { Container, Button } from "./GameControls.styles";
 import BetForm from "../BetForm/BetForm";
 
-interface Props {
-  gameOver: boolean;
-}
-
 export interface GameControlButtonProps {
   size: "giant";
   appearance: "outline";
   status: "warning";
 }
 
-const GameControls: React.FC<Props> = ({ gameOver }) => {
-  const { isBetting, turn } = useSelector((state) => state.game);
+const GameControls: React.FC = () => {
+  const { isBetting, turn, gameOver } = useSelector((state) => state.game);
   const dispatch = useDispatch();
   const buttonProps: GameControlButtonProps = {
     size: "giant",
@@ -26,7 +22,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
 
   if (isBetting)
     return (
-      <Container testID="GameControls" $flex={3}>
+      <Container testID="GameControls">
         <BetForm
           buttonProps={buttonProps}
           onSubmit={(bet) => {
@@ -42,6 +38,7 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
         <Button
           testID="PlayAgainButton"
           {...buttonProps}
+          $last
           onPress={() => {
             dispatch(initNewRound());
           }}
@@ -54,9 +51,9 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
   return (
     <Container testID="GameControls">
       <Button
+        {...buttonProps}
         disabled={turn === "dealer"}
         testID="HitButton"
-        {...buttonProps}
         onPress={() => {
           dispatch(hit("player"));
         }}
@@ -64,9 +61,10 @@ const GameControls: React.FC<Props> = ({ gameOver }) => {
         Hit
       </Button>
       <Button
+        {...buttonProps}
         disabled={turn === "dealer"}
         testID="StandButton"
-        {...buttonProps}
+        $last
         onPress={() => {
           dispatch(setTurn("dealer"));
         }}

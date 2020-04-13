@@ -1,4 +1,4 @@
-import { getValue } from "../Hands/utils";
+import { getValue } from "../Hand/utils";
 import { createDeck } from "../GameControls/utils";
 import reducer, {
   GameState,

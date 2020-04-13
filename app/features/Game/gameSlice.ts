@@ -7,7 +7,7 @@ import {
   playerWins,
   playerLoses,
 } from "../GameControls/utils";
-import { getValue } from "../Hands/utils";
+import { getValue } from "../Hand/utils";
 import { isGameOver } from "../GameControls/utils";
 
 const resetPerson = () => ({ cards: [], score: 0 });

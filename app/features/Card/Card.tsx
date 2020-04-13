@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { Image, Dimensions } from "react-native";
+import back from "./cards/back.png";
 import twoOfSpades from "./cards/2_of_spades.png";
 import twoOfDiamonds from "./cards/2_of_diamonds.png";
 import twoOfClubs from "./cards/2_of_clubs.png";
@@ -56,31 +57,54 @@ import aceOfHearts from "./cards/ace_of_hearts.png";
 import { Ranks, Suits } from "./types";
 
 export interface CardProps {
-  suit: Suits;
-  rank: Ranks;
+  suit?: Suits;
+  rank?: Ranks;
+}
+
+interface ImageContainerProps {
+  $zIndex?: number;
+  $first?: boolean;
+  $last?: boolean;
 }
 
 const deviceHeight = Dimensions.get("screen").height;
 const ratio = 80 / 115;
 const height = deviceHeight * 0.11;
 const width = height * ratio;
+const imagePadding = 4;
 
-const ImageContainer = styled.View`
+const ImageContainer = styled.View<ImageContainerProps>`
   background-color: #fff;
   border-radius: 3px;
-  padding: 4px;
-  align-self: flex-start;
+  padding: ${imagePadding}px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.35);
+  ${(props) => {
+    const rightMargin = 10;
+    const previousRightMargin = props.$first ? 0 : 10;
+    const leftMargin = (width + previousRightMargin + imagePadding * 2) * 0.5;
+    let string = props.$first ? "" : `margin-left: -${leftMargin}px;`;
+
+    string += props.$last ? "" : `margin-right: ${rightMargin}px;`;
+
+    return string;
+  }}
   justify-content: center;
   align-items: center;
   width: ${width}px;
   height: ${height}px;
-  margin-right: 10px;
+  z-index: ${(props) => props.$zIndex};
 `;
 
-const Card: React.FC<CardProps & Testable> = ({ suit, rank, testID }) => {
-  if (!rank || !suit) return null;
-
+const Card: React.FC<CardProps & ImageContainerProps & Testable> = ({
+  rank,
+  suit,
+  testID,
+  $first,
+  $last,
+  $zIndex = 1,
+}) => {
   const cards: Record<string, any> = {
+    back,
     jackOfSpades,
     jackOfDiamonds,
     jackOfClubs,
@@ -134,11 +158,21 @@ const Card: React.FC<CardProps & Testable> = ({ suit, rank, testID }) => {
     tenOfClubs,
     tenOfHearts,
   };
-  const cardKey = `${rank}Of${suit[0].toUpperCase() + suit.slice(1)}`;
-  const card = cards[cardKey];
+  let card = cards.back;
+
+  if (rank && suit) {
+    const cardKey = `${rank}Of${suit[0].toUpperCase() + suit.slice(1)}`;
+    card = cards[cardKey];
+  }
 
   return (
-    <ImageContainer testID={testID}>
+    <ImageContainer
+      $first={$first}
+      $last={$last}
+      $zIndex={$zIndex}
+      style={{ elevation: $zIndex * 2 }}
+      testID={testID}
+    >
       <Image style={{ flex: 1 }} resizeMode="contain" source={card} />
     </ImageContainer>
   );

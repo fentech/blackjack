@@ -4,16 +4,16 @@ import { useDispatch } from "react-redux";
 import { hit, setTurn, resetGame } from "./gameSlice";
 // components
 import GameControls from "../GameControls/GameControls";
-import Hand from "../Hands/Hand";
+import HandsView from "../HandsView/HandsView";
 import Header from "../Header/Header";
-import { HandContainer, GameWrapper, HandWrapper } from "./Game.styles";
+import { GameWrapper, MainWrapper } from "./Game.styles";
 // utils
 import useSelector from "../../functions/useSelector";
 
 export default function Game() {
   const dispatch = useDispatch();
   const gameState = useSelector((state) => state.game);
-  const { player, dealer, turn, bet, chips, isBetting, gameOver } = gameState;
+  const { dealer, turn, chips } = gameState;
 
   React.useEffect(() => {
     if (turn === "dealer") {
@@ -31,26 +31,11 @@ export default function Game() {
 
   return (
     <GameWrapper>
-      <Header />
-      {!isBetting && (
-        <HandContainer testID="Cards">
-          <HandWrapper level="2">
-            <Hand
-              hideCard={turn === "player"}
-              person="dealer"
-              personState={dealer}
-              testID="DealerHand"
-            />
-            <Hand
-              last
-              person="player"
-              personState={player}
-              testID="PlayerHand"
-            />
-          </HandWrapper>
-        </HandContainer>
-      )}
-      <GameControls gameOver={gameOver} />
+      <MainWrapper>
+        <Header />
+        <HandsView />
+        <GameControls />
+      </MainWrapper>
     </GameWrapper>
   );
 }

@@ -16,9 +16,6 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer>
       <Title>Blackjack</Title>
-      {gameOver ? (
-        <Status testID="Status">{getEndGameStatus(gameState)}</Status>
-      ) : null}
       <ChipsContainer>
         {!isBetting && (
           <Text testID="CurrentBet" category="h4">
@@ -27,6 +24,9 @@ const Header: React.FC = () => {
         )}
         <Text category="h5">Total chips: {chips.toString()}</Text>
       </ChipsContainer>
+      {gameOver ? (
+        <Status testID="Status">{getEndGameStatus(gameState)}</Status>
+      ) : null}
     </HeaderContainer>
   );
 };

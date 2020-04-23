@@ -26,21 +26,33 @@ exports[`Card matches snapshot 1`] = `
       }
     >
       <View
+        $zIndex={1}
         style={
           Array [
             Object {
               "alignItems": "center",
-              "alignSelf": "flex-start",
               "backgroundColor": "#fff",
               "borderRadius": 3,
-              "height": 115,
+              "height": 146.74,
               "justifyContent": "center",
+              "marginLeft": -60.04,
               "marginRight": 10,
               "paddingBottom": 4,
               "paddingLeft": 4,
               "paddingRight": 4,
               "paddingTop": 4,
-              "width": 80,
+              "shadowColor": "rgba(0, 0, 0, 0.35)",
+              "shadowOffset": Object {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 5,
+              "width": 102.08,
+              "zIndex": 1,
+            },
+            Object {
+              "elevation": 2,
             },
           ]
         }
@@ -57,6 +69,7 @@ exports[`Card matches snapshot 1`] = `
               "flex": 1,
             }
           }
+          testID="CardImage"
         />
       </View>
     </View>
@@ -90,21 +103,33 @@ exports[`Card matches snapshot 2`] = `
       }
     >
       <View
+        $zIndex={1}
         style={
           Array [
             Object {
               "alignItems": "center",
-              "alignSelf": "flex-start",
               "backgroundColor": "#fff",
               "borderRadius": 3,
-              "height": 115,
+              "height": 146.74,
               "justifyContent": "center",
+              "marginLeft": -60.04,
               "marginRight": 10,
               "paddingBottom": 4,
               "paddingLeft": 4,
               "paddingRight": 4,
               "paddingTop": 4,
-              "width": 80,
+              "shadowColor": "rgba(0, 0, 0, 0.35)",
+              "shadowOffset": Object {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 5,
+              "width": 102.08,
+              "zIndex": 1,
+            },
+            Object {
+              "elevation": 2,
             },
           ]
         }
@@ -121,6 +146,7 @@ exports[`Card matches snapshot 2`] = `
               "flex": 1,
             }
           }
+          testID="CardImage"
         />
       </View>
     </View>
@@ -154,21 +180,33 @@ exports[`Card matches snapshot 3`] = `
       }
     >
       <View
+        $zIndex={1}
         style={
           Array [
             Object {
               "alignItems": "center",
-              "alignSelf": "flex-start",
               "backgroundColor": "#fff",
               "borderRadius": 3,
-              "height": 115,
+              "height": 146.74,
               "justifyContent": "center",
+              "marginLeft": -60.04,
               "marginRight": 10,
               "paddingBottom": 4,
               "paddingLeft": 4,
               "paddingRight": 4,
               "paddingTop": 4,
-              "width": 80,
+              "shadowColor": "rgba(0, 0, 0, 0.35)",
+              "shadowOffset": Object {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 5,
+              "width": 102.08,
+              "zIndex": 1,
+            },
+            Object {
+              "elevation": 2,
             },
           ]
         }
@@ -185,6 +223,7 @@ exports[`Card matches snapshot 3`] = `
               "flex": 1,
             }
           }
+          testID="CardImage"
         />
       </View>
     </View>
@@ -218,21 +257,33 @@ exports[`Card matches snapshot 4`] = `
       }
     >
       <View
+        $zIndex={1}
         style={
           Array [
             Object {
               "alignItems": "center",
-              "alignSelf": "flex-start",
               "backgroundColor": "#fff",
               "borderRadius": 3,
-              "height": 115,
+              "height": 146.74,
               "justifyContent": "center",
+              "marginLeft": -60.04,
               "marginRight": 10,
               "paddingBottom": 4,
               "paddingLeft": 4,
               "paddingRight": 4,
               "paddingTop": 4,
-              "width": 80,
+              "shadowColor": "rgba(0, 0, 0, 0.35)",
+              "shadowOffset": Object {
+                "height": 0,
+                "width": 0,
+              },
+              "shadowOpacity": 1,
+              "shadowRadius": 5,
+              "width": 102.08,
+              "zIndex": 1,
+            },
+            Object {
+              "elevation": 2,
             },
           ]
         }
@@ -249,6 +300,7 @@ exports[`Card matches snapshot 4`] = `
               "flex": 1,
             }
           }
+          testID="CardImage"
         />
       </View>
     </View>

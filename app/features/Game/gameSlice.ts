@@ -46,6 +46,10 @@ export const deriveFromInitialState = (bet: number = 0): GameState => ({
 
 export const initialState = deriveFromInitialState();
 
+const endGameCR: CaseReducer<GameState> = (state) => {
+  state.gameOver = true;
+};
+
 const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
   state,
   action
@@ -136,6 +140,7 @@ const gameSlice = createSlice({
   name: "gameControls",
   initialState,
   reducers: {
+    endGame: endGameCR,
     hit: hitCR,
     initNewRound: initNewRoundCR,
     resetDeck: resetDeckCR,
@@ -148,6 +153,7 @@ const gameSlice = createSlice({
 });
 
 export const {
+  endGame,
   hit,
   initNewRound,
   resetDeck,

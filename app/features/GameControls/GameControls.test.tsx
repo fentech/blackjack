@@ -2,7 +2,7 @@ import React from "react";
 import { render, Matcher, MatcherOptions, fireEvent, act } from "test-utils";
 import GameControls from "./GameControls";
 import store from "../../store";
-import { resetGame, toggleBetting, setTurn } from "../Game/gameSlice";
+import { endGame, resetGame, setTurn, toggleBetting } from "../Game/gameSlice";
 
 type MemoCB = (getters: {
   getByTestId: (
@@ -20,13 +20,13 @@ const memoTest = (
 ) => {
   const { gameOver = false, isBetting = false } = options;
 
-  const { getByTestId, queryByTestId } = render(
-    <GameControls gameOver={gameOver} />
-  );
+  const { getByTestId, queryByTestId } = render(<GameControls />);
 
   if (!isBetting) {
     act((): void => {
       store.dispatch(toggleBetting());
+
+      if (gameOver) store.dispatch(endGame());
     });
   }
 

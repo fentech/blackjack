@@ -77,8 +77,8 @@ describe("Hand", () => {
         ).toBeTruthy();
       });
 
-      it("should only display the dealer's first card", (): void => {
-        const { getAllByTestId } = render(
+      it("should render back image for the dealer's second card", (): void => {
+        const { getAllByTestId, getByTestId } = render(
           <Hand
             person="dealer"
             personState={defaultPersonState}
@@ -87,6 +87,7 @@ describe("Hand", () => {
         );
 
         expect(getAllByTestId("DealerCard")).toHaveLength(1);
+        expect(getByTestId("BackCard")).toBeTruthy();
       });
     });
   });

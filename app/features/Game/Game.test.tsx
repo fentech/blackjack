@@ -11,6 +11,12 @@ describe("Game", (): void => {
     });
   });
 
+  it("should show current hands", (): void => {
+    const { getByTestId } = render(<Game />);
+
+    expect(getByTestId("HandsContainer")).toBeTruthy();
+  });
+
   it("should render the user's total chips", (): void => {
     const { getByText } = render(<Game />);
 
@@ -29,12 +35,6 @@ describe("Game", (): void => {
 
       expect(queryByTestId("CurrentBet")).toBeFalsy();
     });
-
-    it("should hide the current hands", (): void => {
-      const { queryByTestId } = render(<Game />);
-
-      expect(queryByTestId("Cards")).toBeFalsy();
-    });
   });
 
   describe("player isn't betting", (): void => {
@@ -49,14 +49,6 @@ describe("Game", (): void => {
 
       expect(getByTestId("CurrentBet")).toBeTruthy();
       expect(getByTestId("CurrentBet").children).toContain("Current bet: ");
-    });
-
-    it("should show current hands", (): void => {
-      const { getByTestId } = render(<Game />);
-
-      expect(getByTestId("Cards")).toBeTruthy();
-      expect(getByTestId("DealerHand")).toBeTruthy();
-      expect(getByTestId("PlayerHand")).toBeTruthy();
     });
   });
 

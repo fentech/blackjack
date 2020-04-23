@@ -35,7 +35,7 @@ const Hand: React.FC<Props & Testable> = ({
           testID="DealerCard"
           {...personState.cards[0]}
         />
-        <Card $last $zIndex={4} testID="DealerCard" />
+        <Card $last $zIndex={4} testID="BackCard" />
       </>
     ) : (
       personState.cards.map((card, index, arr) => (

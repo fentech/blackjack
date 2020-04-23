@@ -173,7 +173,12 @@ const Card: React.FC<CardProps & ImageContainerProps & Testable> = ({
       style={{ elevation: $zIndex * 2 }}
       testID={testID}
     >
-      <Image style={{ flex: 1 }} resizeMode="contain" source={card} />
+      <Image
+        testID="CardImage"
+        style={{ flex: 1 }}
+        resizeMode="contain"
+        source={card}
+      />
     </ImageContainer>
   );
 };

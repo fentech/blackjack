@@ -8,9 +8,9 @@ const HandsView: React.FC = () => {
   const { player, dealer, turn, isBetting } = gameState;
 
   return (
-    <HandsContainer testID="Cards">
+    <HandsContainer testID="HandsContainer">
       {!isBetting && (
-        <HandsWrapper level="2">
+        <HandsWrapper testID="Hands" level="2">
           <Hand
             hideCard={turn === "player"}
             person="dealer"

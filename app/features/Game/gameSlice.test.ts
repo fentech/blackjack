@@ -1,6 +1,7 @@
 import { getValue } from "../Hand/utils";
 import { createDeck } from "../GameControls/utils";
 import reducer, {
+  endGame,
   GameState,
   hit,
   initNewRound,
@@ -15,6 +16,15 @@ import reducer, {
 } from "./gameSlice";
 
 const getType = (action: string) => `${name}/${action}`;
+
+describe("endGame() action creator", (): void => {
+  it("should setup a 'endGame' action", (): void => {
+    expect(endGame()).toEqual({
+      payload: undefined,
+      type: getType("endGame"),
+    });
+  });
+});
 
 describe("hit() action creator", (): void => {
   it("should setup a 'hit' action", (): void => {
@@ -133,6 +143,12 @@ describe("game reducer", (): void => {
 
   it("should return initial state", (): void => {
     expect(reducer(undefined, { type: undefined })).toEqual(initialState);
+  });
+
+  describe("'endGame' action", (): void => {
+    it("should set gameOver to true", (): void => {
+      expect(reducer(defaultState, endGame()).gameOver).toBe(true);
+    });
   });
 
   describe("'hit' action", (): void => {

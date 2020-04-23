@@ -1,23 +1,36 @@
 import { getValue } from "../Hand/utils";
 import { createDeck } from "../GameControls/utils";
 import reducer, {
+  doubleDown,
+  DoubleDownError,
   endGame,
   GameState,
   hit,
+  initialState,
   initNewRound,
+  NoBetError,
   resetDeck,
   resetGame,
   setTurn,
   stand,
   startNewRound,
   toggleBetting,
+  TurnError,
   name,
-  initialState,
 } from "./gameSlice";
 
 const deckLength = 52 * 4;
 
 const getType = (action: string) => `${name}/${action}`;
+
+describe("doubleDown() action creator", (): void => {
+  it("should setup a 'doubleDown' action", (): void => {
+    expect(doubleDown()).toEqual({
+      payload: undefined,
+      type: getType("doubleDown"),
+    });
+  });
+});
 
 describe("endGame() action creator", (): void => {
   it("should setup a 'endGame' action", (): void => {
@@ -145,6 +158,53 @@ describe("game reducer", (): void => {
 
   it("should return initial state", (): void => {
     expect(reducer(undefined, { type: undefined })).toEqual(initialState);
+  });
+
+  describe("'doubleDown' action", (): void => {
+    describe("player doesn't have a bet", (): void => {
+      it("should throw an error", (): void => {
+        expect(() => reducer(undefined, doubleDown())).toThrowError(NoBetError);
+      });
+    });
+
+    describe("player has a bet", (): void => {
+      const bet = 10;
+      const state: GameState = { ...initialState, bet };
+
+      describe("not player's turn", (): void => {
+        it("should throw an error", (): void => {
+          expect(() =>
+            reducer({ ...state, turn: null }, doubleDown())
+          ).toThrowError(TurnError);
+        });
+      });
+
+      describe("player has more than 2 cards", (): void => {
+        it("should throw an error", (): void => {
+          const cards = state.deck.slice(0, 4);
+
+          expect(() =>
+            reducer(
+              { ...state, player: { cards, score: getValue(cards) } },
+              doubleDown()
+            )
+          ).toThrowError(DoubleDownError);
+        });
+      });
+
+      it("should double the player's bet", (): void => {
+        expect(reducer(state, doubleDown()).bet).toBe(bet * 2);
+      });
+
+      it("should deal another card to the player", (): void => {
+        expect(state.player.cards.length).toBe(0);
+        expect(reducer(state, doubleDown()).player.cards.length).toBe(1);
+      });
+
+      it("should make it the dealer's turn", (): void => {
+        expect(reducer(state, doubleDown()).turn).toBe("dealer");
+      });
+    });
   });
 
   describe("'endGame' action", (): void => {

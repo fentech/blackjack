@@ -13,13 +13,7 @@ import { isGameOver } from "../GameControls/utils";
 const resetPerson = () => ({ cards: [], score: 0 });
 
 const newDeck = () => {
-  let deck: CardProps[] = [];
-
-  for (let i = 0; i < 4; i++) {
-    deck = deck.concat(createDeck());
-  }
-
-  return shuffleDeck(deck);
+  return shuffleDeck(createDeck());
 };
 
 export interface PersonState {
@@ -56,18 +50,49 @@ const endGameCR: CaseReducer<GameState> = (state) => {
   state.gameOver = true;
 };
 
-const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
-  state,
-  action
-) => {
+const hitBase = (state: GameState, payload: Person) => {
   if (!state.deck.length) state.deck = newDeck();
 
   const newCard = state.deck.shift() as CardProps;
 
-  state[action.payload].cards.push(newCard);
-  state[action.payload].score = getValue(state[action.payload].cards);
+  state[payload].cards.push(newCard);
+  state[payload].score = getValue(state[payload].cards);
 
   if (isGameOver(state)) state.gameOver = true;
+};
+const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
+  state,
+  action
+) => {
+  hitBase(state, action.payload);
+};
+
+export class DoubleDownError extends Error {
+  constructor() {
+    super("Must be the beginning of the player's turn.");
+  }
+}
+export const NoBetErrorText = "Player must have a current bet.";
+export class NoBetError extends Error {
+  constructor() {
+    super(NoBetErrorText);
+  }
+}
+export class TurnError extends Error {
+  constructor(person: Person) {
+    super(`Must be ${person}'s turn.`);
+  }
+}
+const doubleDownCR: CaseReducer<GameState> = (state) => {
+  if (!state.bet) throw new NoBetError();
+  if (state.turn !== "player") throw new TurnError("player");
+  if (state.player.cards.length > 2) throw new DoubleDownError();
+
+  state.bet *= 2;
+
+  hitBase(state, "player");
+
+  if (!state.gameOver) state.turn = "dealer";
 };
 
 const initNewRoundCR: CaseReducer<GameState> = (state) => {
@@ -146,6 +171,7 @@ const gameSlice = createSlice({
   name: "gameControls",
   initialState,
   reducers: {
+    doubleDown: doubleDownCR,
     endGame: endGameCR,
     hit: hitCR,
     initNewRound: initNewRoundCR,
@@ -159,6 +185,7 @@ const gameSlice = createSlice({
 });
 
 export const {
+  doubleDown,
   endGame,
   hit,
   initNewRound,

@@ -12,8 +12,14 @@ import { isGameOver } from "../GameControls/utils";
 
 const resetPerson = () => ({ cards: [], score: 0 });
 
-const newDeck = (state: GameState) => {
-  state.deck = shuffleDeck(createDeck());
+const newDeck = () => {
+  let deck: CardProps[] = [];
+
+  for (let i = 0; i < 4; i++) {
+    deck = deck.concat(createDeck());
+  }
+
+  return shuffleDeck(deck);
 };
 
 export interface PersonState {
@@ -35,7 +41,7 @@ export interface GameState {
 export const deriveFromInitialState = (bet: number = 0): GameState => ({
   bet,
   chips: 100,
-  deck: shuffleDeck(createDeck()),
+  deck: newDeck(),
   dealer: resetPerson(),
   gameOver: false,
   isBetting: true,
@@ -54,7 +60,7 @@ const hitCR: CaseReducer<GameState, PayloadAction<Person>> = (
   state,
   action
 ) => {
-  if (!state.deck.length) newDeck(state);
+  if (!state.deck.length) state.deck = newDeck();
 
   const newCard = state.deck.shift() as CardProps;
 
@@ -79,7 +85,7 @@ const initNewRoundCR: CaseReducer<GameState> = (state) => {
 };
 
 const resetDeckCR: CaseReducer<GameState> = (state) => {
-  newDeck(state);
+  state.deck = newDeck();
 };
 
 const resetGameCR: CaseReducer<GameState> = () => deriveFromInitialState();
@@ -111,7 +117,7 @@ const startNewRoundCR: CaseReducer<GameState, PayloadAction<number>> = (
   state.player = resetPerson();
 
   function deal() {
-    if (!state.deck.length) newDeck(state);
+    if (!state.deck.length) state.deck = newDeck();
 
     return state.deck.shift() as CardProps;
   }

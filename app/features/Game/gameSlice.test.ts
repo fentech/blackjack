@@ -15,6 +15,8 @@ import reducer, {
   initialState,
 } from "./gameSlice";
 
+const deckLength = 52 * 4;
+
 const getType = (action: string) => `${name}/${action}`;
 
 describe("endGame() action creator", (): void => {
@@ -161,7 +163,7 @@ describe("game reducer", (): void => {
       const { deck } = reducer(state, hit("dealer"));
 
       it("should reset the deck", (): void => {
-        expect(deck.length).toBe(51);
+        expect(deck.length).toBe(deckLength - 1);
       });
     });
 
@@ -256,7 +258,7 @@ describe("game reducer", (): void => {
     it("should assign a new shuffled deck in state", (): void => {
       const { deck } = reducer(defaultState, resetDeck());
 
-      expect(deck.length).toBe(52);
+      expect(deck.length).toBe(deckLength);
     });
   });
 
@@ -274,7 +276,7 @@ describe("game reducer", (): void => {
     } = reducer(defaultState, resetGame());
 
     it("should reset deck", (): void => {
-      expect(deck.length).toBe(52);
+      expect(deck.length).toBe(deckLength);
     });
 
     it("should reset dealer and player scores", (): void => {
@@ -359,7 +361,7 @@ describe("game reducer", (): void => {
       const { deck, dealer, player } = reducer(state, startNewRound(11));
 
       it("should reset deck and deal starting cards", (): void => {
-        expect(deck.length).toBe(48);
+        expect(deck.length).toBe(deckLength - 4);
         expect(player.cards.length).toBe(2);
         expect(dealer.cards.length).toBe(2);
       });
@@ -371,7 +373,7 @@ describe("game reducer", (): void => {
       const { deck, dealer, player } = reducer(state, startNewRound(11));
 
       it("should reset deck and deal starting cards", (): void => {
-        expect(deck.length).toBe(50);
+        expect(deck.length).toBe(deckLength - 2);
         expect(player.cards.length).toBe(2);
         expect(dealer.cards.length).toBe(2);
       });

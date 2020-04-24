@@ -11,9 +11,11 @@ export interface PartialGameState {
 }
 
 export const createDeck = () => {
-  return (Object.keys(RANKS) as Ranks[])
+  const singleDeck = (Object.keys(RANKS) as Ranks[])
     .map((rank) => SUITS.map((suit) => ({ suit, rank })))
     .flat();
+
+  return [...singleDeck, ...singleDeck, ...singleDeck, ...singleDeck];
 };
 
 export const getHiddenCardValue = ({ score, cards }: PersonState) => {

@@ -31,19 +31,8 @@ const createPartialState = (
 });
 
 describe("createDeck()", (): void => {
-  it("should return an array of 52 cards", (): void => {
-    expect(createDeck().length).toBe(52);
-  });
-
-  it("each card should be unique", (): void => {
-    const cards = createDeck();
-    const cardsDict: Record<string, CardProps> = {};
-
-    cards.forEach((card) => {
-      expect(cardsDict[card.rank + card.suit]).toBeUndefined();
-
-      cardsDict[card.rank + card.suit] = card;
-    });
+  it("should return an array of 4 decks of cards", (): void => {
+    expect(createDeck().length).toBe(52 * 4);
   });
 });
 
@@ -90,7 +79,7 @@ describe("getHiddenCardValue()", (): void => {
     const personState: PersonState = {
       score: 14,
       cards: [
-        { suit: "clubs", rank: 4 },
+        { suit: "clubs", rank: "four" },
         { suit: "clubs", rank: "jack" },
       ],
     };
